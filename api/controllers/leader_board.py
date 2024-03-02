@@ -4,9 +4,11 @@ bp = Blueprint('leader_board', __name__)
 
 # Placeholder data for user accounts and scores
 users = [
-    {"id": 1, "name": "John", "score": 100},
-    {"id": 2, "name": "Jane", "score": 200},
-    {"id": 3, "name": "Bob", "score": 150}
+    {"id": "1", "name": "John", "volunteerCount": 100},
+    {"id": "2", "name": "Jane", "volunteerCount": 200},
+    {"id": "3", "name": "Joe", "volunteerCount": 300},
+    {"id": "4", "name": "Jill", "volunteerCount": 400},
+    {"id": "5", "name": "Jack", "volunteerCount": 500},
 ]
 
 @bp.route('/leaderboard', methods=['GET'])
