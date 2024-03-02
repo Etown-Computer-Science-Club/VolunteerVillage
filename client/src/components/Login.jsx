@@ -5,7 +5,7 @@ const Login = () => {
 	const { loginWithRedirect } = useAuth0();
 
 	return (
-		<Button
+		<Button mr={5}
 			onClick={() =>
 				loginWithRedirect({
 					appState: { returnTo: location.pathname },

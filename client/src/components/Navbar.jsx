@@ -1,4 +1,5 @@
-import { Link, Flex, Text, Spacer, Image, Avatar } from "@chakra-ui/react";
+import { Link, Flex, Text, Spacer, Image, Avatar, Menu, MenuButton, MenuList, MenuItem, Button, Center, ButtonGroup } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -24,13 +25,27 @@ export default function Navbar() {
 			</Link>
 			{!isAuthenticated && <Login />}
 			{!isAuthenticated && <Signup />}
-			{isAuthenticated && <Logout />}
 			{isAuthenticated && (
-				<Flex gap={2}>
-					<Avatar size="sm" src={user.picture} name={user.name} />
-					<p>{user.name}</p>
-					<p>{user.email}</p>
-				</Flex>
+
+				
+				<Menu>
+					<MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+						<Avatar size="sm" src={user.picture} name={user.name} />
+					</MenuButton>
+					<MenuList>
+						<Center>
+							<Avatar size="lg" src={user.picture} name={user.name} />
+						</Center>
+						<Text fontSize="15px" textAlign="center"> {user.name}</Text>
+						<Text fontSize="15px" textAlign="center"> {user.email}</Text>
+						<Center pt="5px">
+							<ButtonGroup>
+								<Button as={RouterLink} to={"/profile"}>Profile</Button>
+								<Logout />
+							</ButtonGroup>
+						</Center>
+					</MenuList>
+				</Menu>
 			)}
 		</Flex>
 	);
