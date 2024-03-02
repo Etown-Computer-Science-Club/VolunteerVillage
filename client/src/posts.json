@@ -1,0 +1,24 @@
+[
+	{
+		"company": {
+			"userId": "",
+			"name": "",
+			"logo": ""
+		},
+		"eventDate": "",
+		"title": "",
+		"description": "",
+		"address": {
+			"street": "",
+			"city": "",
+			"state": "",
+			"zip": ""
+		}
+	},
+	{
+		
+	},
+	{
+
+	}
+]
