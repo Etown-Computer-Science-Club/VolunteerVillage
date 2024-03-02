@@ -1,18 +1,20 @@
 from flask import Flask
-from controllers.posts import bp as posts_bp
-from controllers.badges import bp as badges_bp
+from flask_sqlalchemy import SQLAlchemy
+from database.db import db
+from dotenv import load_dotenv
+from blueprints import posts_bp, badges_bp
+import os
 
+load_dotenv()
 
-def create_app():
-    app = Flask(__name__)
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("HH_DATABASE_URL")
+app.register_blueprint(posts_bp)
+app.register_blueprint(badges_bp)
+db.init_app(app)
 
-    # Register the blueprints with the Flask application
-    app.register_blueprint(posts_bp)
-    app.register_blueprint(badges_bp)
-
-    return app
-
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True)
