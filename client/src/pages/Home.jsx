@@ -1,7 +1,7 @@
 import {Flex, Image, Spacer, Text, useMediaQuery } from '@chakra-ui/react';
 
 export default function Home() {
-  const [isLargeScreen] = useMediaQuery("(min-width: 1000px)");
+  const [isLargeScreen] = useMediaQuery("(min-width: 1200px)");
 
   return (
     <Flex w="100%" h="100%">
