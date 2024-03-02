@@ -13,7 +13,7 @@ import Leaderboard from './pages/Leaderboard';
 
 export default function App() {
   return (
-    <Flex flexDirection="column" minHeight="100vh">
+    <Flex flexDirection="column" height="100vh">
       <Navbar />
       <Flex flex="1" direction="column" p="4">
         <Routes>
