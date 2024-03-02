@@ -13,7 +13,6 @@ const colors = {
     green: '#61BF1A',
     red: '#E1261C',
   },
-  colors,
 }
 
 const theme = extendTheme({
@@ -21,6 +20,7 @@ const theme = extendTheme({
     initialColorMode: "dark",
     useSystemColorMode: false,
   },
+  colors,
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

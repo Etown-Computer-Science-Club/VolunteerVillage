@@ -8,7 +8,8 @@ import Navbar from './components/Navbar';
 
 // Pages
 import Home from './pages/Home';
-
+import Events from './pages/Events';
+import Leaderboard from './pages/Leaderboard';
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
       <Flex flex="1" direction="column" p="4">
         <Routes>
           <Route path="/" element={<Home/>} />
+          <Route path="/events" element={<Events/>} />
+          <Route path="/leaderboard" element={<Leaderboard/>} />
         </Routes>
       </Flex>
       <Footer />
