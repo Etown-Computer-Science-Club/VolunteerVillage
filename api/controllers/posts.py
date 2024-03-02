@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-from main import app
 from database.db import db
 from database.post import Post
 from blueprints import posts_bp as bp
@@ -10,7 +9,7 @@ def get_posts():
     return jsonify({"message": "Returning all posts"}), 200
 
 
-@app.route('/posts', methods=['POST'])
+@bp.route('/posts', methods=['POST'])
 def create_post():
     data = request.get_json()
     title = data.get('title')
