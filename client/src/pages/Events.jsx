@@ -36,9 +36,9 @@ export default function Events() {
 
   return (
     <Center>
-        <TableContainer w="50vw">
+        <TableContainer w="75vw">
         <Table variant='simple' colorScheme='teal'>
-          <Thead>
+          <Thead bg="blue.900">
             <Tr>
               <Th textAlign="center">Company</Th>
               <Th textAlign="center">Event Date</Th>
@@ -50,7 +50,7 @@ export default function Events() {
 
           <Tbody>
           {postsData.map((user, index) => (
-              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }}>
+              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                 <Td textAlign="center">{user.company.name}</Td>
                 <Td textAlign="center">{user.eventDate}</Td>
                 <Td textAlign="center">{user.title}</Td>
