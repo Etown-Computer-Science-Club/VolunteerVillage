@@ -130,7 +130,7 @@ export default function MyEvents() {
                   return (
                     <Tr key={index} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                       <Td textAlign="center">{user.name}</Td>
-                      <Td textAlign="center"><Button colorScheme="green" onClick={() => handleConfirm(index)}>Confirm</Button></Td>
+                      <Td textAlign="center"><Button colorScheme="blue" onClick={() => handleConfirm(index)}>Confirm</Button></Td>
                       <Td textAlign="center"><Button colorScheme='red' onClick={() => handleDeleteAttendee(index)}>Delete</Button></Td>
                     </Tr>
                   );
@@ -141,7 +141,7 @@ export default function MyEvents() {
             
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={handleClose}>
+            <Button colorScheme='gray' mr={3} onClick={handleClose}>
               Close
             </Button>
 
