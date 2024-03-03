@@ -52,7 +52,7 @@ export default function MyEvents() {
     try{
       await PostService.deleteEvent(postsData[selectedItemIndex].id);
       handleClose();
-      const data = await PostService.getEvents();
+      const data = await PostService.getMyEvents();
       setPostsData(data);
     } catch (error){
       console.error('Failed to delete event:', error);
