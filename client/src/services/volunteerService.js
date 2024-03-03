@@ -5,9 +5,8 @@ const API_URL = process.env.NODE_ENV === 'production'
 
 export default class VolunteerService {
 	static async getAttendees (postID) {
-        console.log("calling getAttendees at: " + API_URL+postID)
-
 		const { data } = await axios.get(API_URL+postID)
+        console.log(data)
 		return (data)
 	}
 }
