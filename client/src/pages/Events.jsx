@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react'
-
-import { Box, useDisclosure, Button, Center } from '@chakra-ui/react';
+  Table, Thead, Tbody, Tr, Th, Td, TableContainer,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
+  useDisclosure,
+  Button,
+  Center
+} from '@chakra-ui/react';
 import postsData from '../posts.json';
 
 export default function Events() {
