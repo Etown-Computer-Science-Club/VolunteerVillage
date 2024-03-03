@@ -68,16 +68,21 @@ export default function Events() {
           </Thead>
 
           <Tbody>
-          {postsData.map((user, index) => (
-              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                <Td textAlign="center">{user.company.name}</Td>
-                <Td textAlign="center">{user.eventDateStart}</Td>
-                <Td textAlign="center">{user.eventDateEnd}</Td>
-                <Td textAlign="center">{user.title}</Td>
-                <Td textAlign="center">{user.address.city}</Td>
-                <Td textAlign="center">{user.address.state}</Td>
-              </Tr>
-            ))}
+            {postsData.map((user, index) => {
+            if(new Date(user.eventDateEnd).getTime() < new Date().getTime()){
+                return null;
+            }
+              return (
+                <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                  <Td textAlign="center">{user.company.name}</Td>
+                  <Td textAlign="center">{user.eventDateStart}</Td>
+                  <Td textAlign="center">{user.eventDateEnd}</Td>
+                  <Td textAlign="center">{user.title}</Td>
+                  <Td textAlign="center">{user.address.city}</Td>
+                  <Td textAlign="center">{user.address.state}</Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>
