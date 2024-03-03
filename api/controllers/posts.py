@@ -26,7 +26,8 @@ def get_posts():
                 'city': post.city,
                 'state': post.state,
                 'zip': post.zip,
-            }
+            },
+            'userIsVolunteer': False,
         }
         posts_data.append(post_data)
 
