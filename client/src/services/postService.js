@@ -8,8 +8,8 @@ export default class PostService {
 		const { data } = await axios.get(API_URL)
 		return (data)
 	}
-    static async getMyEvents() {
-		const { data } = await axios.get(API_URL)
+    static async getMyEvents(userID) {
+		const { data } = await axios.get(API_URL + "/" + userID)
 		return (data)
 	}
 }
