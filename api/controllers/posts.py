@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from database.db import db
 from database.post import Post
+from database.volunteer import Volunteer
+from sqlalchemy import func
 
 bp = Blueprint('posts', __name__)
 
@@ -46,24 +48,25 @@ def create_post():
 
     return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
 
-# @bp.route('/posts/<int:postId>', methods=['DELETE'])
-# def delete_post(postId):
-#     volunteer = Volunteer.query.filter_by(
-#         postId=postId, userId=(userId)).first()
 
-#     if not volunteer:
-#         return jsonify({'message': 'Volunteer not found'}), 404
 
-#     db.session.delete(volunteer)
-#     db.session.commit()
-
-#     return jsonify({'message': 'Volunteer deleted successfully'}), 200
-
-# from flask import jsonify
+from flask import jsonify
 
 @bp.route('/posts/<int:postId>', methods=['DELETE'])
 def delete_post(postId):
     post = Post.query.get_or_404(postId)  # Assumes you have a 'Post' model
+
+    # Count confirmed volunteers associated with the post
+    confirmed_count = Volunteer.query.filter_by(post_id=postId).count()
+    def get_confirmed_count(post_id):
+        confirmed_count = Volunteer.query.filter_by(post_id=post_id, is_confirmed=True).count()
+
+        return jsonify({'confirmed_count': confirmed_count})
+
+    get_confirmed_count(postId)
+
+    if confirmed_count > 0:
+        return jsonify({'message': 'Cannot delete post with confirmed volunteers'}), 400
 
     # Authorization check (optional, but recommended):
     # if post.author_id != userId:  # Assuming 'author_id' on the Post model
@@ -73,3 +76,5 @@ def delete_post(postId):
     db.session.commit()
 
     return jsonify({'message': 'Post deleted successfully'}), 200
+
+
