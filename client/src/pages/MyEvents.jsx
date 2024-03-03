@@ -49,8 +49,12 @@ export default function MyEvents() {
     onOpen();
   }
 
-  const handleDelete = () => {
-    console.log('Deleting event');
+  const handleDelete = async() => {
+    try{
+      await PostService.deleteEvent(postsData[selectedItemIndex].id);
+    } catch (error){
+      console.error('Failed to delete event:', error);
+    }
   }
   const handleConfirm = async(index) => {
     try {

@@ -16,4 +16,8 @@ export default class PostService {
 		const { data } = await axios.post(API_URL + "/create", event)
 		return (data)
 	}
+    static async deleteEvent(postID) {
+		const { data } = await axios.delete(API_URL + "/" + postID, )
+		return (data)
+	}
 }
