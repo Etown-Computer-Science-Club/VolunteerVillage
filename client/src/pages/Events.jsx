@@ -32,9 +32,9 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
 import { format, compareAsc } from "date-fns";
 
-const DTFORMAT="MMMM do h:m a"
+const DTFORMAT="MMMM do h:mm a"
 const DATEFORMAT="MMM do"
-const TIMEFORMAT="h:m a"
+const TIMEFORMAT="h:mm a"
 
 export default function Events() {
 	const { user, isAuthenticated } = useAuth0();

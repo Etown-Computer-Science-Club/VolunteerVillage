@@ -9,6 +9,9 @@ import {
 } from '@chakra-ui/react';
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
+import { format, compareAsc } from "date-fns";
+
+const DTFORMAT="MMMM do h:mm a"
 
 export default function MyEvents() {
 
@@ -97,7 +100,11 @@ export default function MyEvents() {
           <Tbody>
           {postsData.map((user, index) => (
               <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                <Td textAlign="center">{user.eventDateEnd}</Td>
+                <Td textAlign="center">
+                  {
+                    format(new Date(user.eventDateEnd), DTFORMAT)
+                  }
+                </Td>
                 <Td textAlign="center">{user.title}</Td>
                 <Td textAlign="center">{user.address.city}</Td>
                 <Td textAlign="center">{user.address.state}</Td>
