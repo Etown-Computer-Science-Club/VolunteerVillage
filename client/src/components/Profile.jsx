@@ -38,7 +38,7 @@ const Profile = () => {
 	return (
 		<VStack as="form" onSubmit={handleSubmit} spacing={4} align="flex-start">
 			<Center>
-				<Box w="50vw">
+				<Box w="100%">
 					<FormControl>
 						<FormLabel htmlFor="name">Name</FormLabel>
 						<Input id="name" type="text" value={name} onChange={handleNameChange} />

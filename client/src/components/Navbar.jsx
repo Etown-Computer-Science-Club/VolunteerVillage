@@ -1,13 +1,15 @@
-import { Link, Flex, Text, Spacer, Image, Avatar, Menu, MenuButton, MenuList, Button, Center, VStack } from "@chakra-ui/react";
+import { Link, Flex, Text, Spacer, Image, Avatar, Menu, MenuButton, MenuList, Button, Center, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useDisclosure } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
 import Logout from "./Logout";
 import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "./Profile";
 
 export default function Navbar() {
 	const { user, isAuthenticated } = useAuth0();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<Flex p="10px" alignItems="center" bg="gray.700" fontSize="20px">
@@ -59,7 +61,19 @@ export default function Navbar() {
 					<MenuList>
             <Flex direction="column" gap={2}>
               <Center>
-                <Avatar size="lg" src={user.picture} name={user.name} />
+			  <Button onClick={onOpen}>
+				<Avatar size="sm" src={user.picture} name={user.name} />
+				</Button>
+				<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>User Details</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+					<Profile />
+					</ModalBody>
+				</ModalContent>
+				</Modal>
               </Center>
               <Text fontSize="15px" textAlign="center"> {user.email}</Text>
               <Center pt="5px">
