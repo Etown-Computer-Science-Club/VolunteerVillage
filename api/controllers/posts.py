@@ -12,14 +12,21 @@ def get_posts():
     for post in posts:
         post_data = {
             'id': post.id,
-            'userId': post.userId,
-            'eventDate': post.eventDate.isoformat(),
+            'company': {
+                "userId": post.userId,
+                "name": "Company Name",
+                "logo": "",
+            },
+            'eventDateStart': post.eventDateStart.isoformat(),
+            'eventDateEnd': post.eventDateEnd.isoformat(),
             'title': post.title,
             'description': post.description,
-            'street': post.street,
-            'city': post.city,
-            'state': post.state,
-            'zip': post.zip,
+            'address': {
+                'street': post.street,
+                'city': post.city,
+                'state': post.state,
+                'zip': post.zip,
+            }
         }
         posts_data.append(post_data)
 
