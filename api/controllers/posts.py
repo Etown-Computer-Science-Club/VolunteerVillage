@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, g
 from flask import Blueprint, jsonify, request
 from database.db import db
 from database.post import Post
@@ -56,6 +56,42 @@ def create_post():
     db.session.commit()
 
     return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
+
+
+@bp.route('/posts/me', methods=['GET'])
+@requires_auth
+def get_my_post():
+    user_id = g.user.get('sub')
+    posts = Post.query.filter_by(userId=user_id)
+
+    posts_data = []
+
+    user_ids = [post.userId for post in posts]
+    user_info = get_user_info_with_userids(user_ids)
+    user_info = {user['user_id']: user for user in user_info}
+
+    for post in posts:
+        post_data = {
+            'id': post.id,
+            'company': {
+                "userId": post.userId,
+                "name": get_name(user_info[post.userId]) if user_info.get(post.userId) else "Unknown User",
+                "logo": "",
+            },
+            'eventDateStart': post.eventDateStart.isoformat(),
+            'eventDateEnd': post.eventDateEnd.isoformat(),
+            'title': post.title,
+            'description': post.description,
+            'address': {
+                'street': post.street,
+                'city': post.city,
+                'state': post.state,
+                'zip': post.zip,
+            },
+        }
+        posts_data.append(post_data)
+
+    return jsonify(posts_data), 200
 
 
 @bp.route('/posts/<int:postId>', methods=['DELETE'])
