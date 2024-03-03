@@ -13,6 +13,24 @@ export default function MyEvents() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
+  const attendees = [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@etown.edu"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "janedoe@etown.edu"
+    },
+    {
+      "id": 3,
+      "name": "John Smith",
+      "email": "johnsmith@etown.edu"
+    }
+  ]
+
   const handleItemClick = (index) => {
     setSelectedItemIndex(index);
     onOpen();
@@ -20,6 +38,12 @@ export default function MyEvents() {
 
   const handleDelete = () => {
     console.log('Deleting event');
+  }
+  const handleConfirm = () => {
+    console.log('Confirming attendance');
+  }
+  const handleDeleteAttendee = () => {
+    console.log('Deleting attendee');
   }
 
   return (
@@ -47,19 +71,40 @@ export default function MyEvents() {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal  isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Event Details</ModalHeader>
+        <ModalContent  >
+          <ModalHeader>Attendees</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedItemIndex !== null && postsData[selectedItemIndex].description}
+          <TableContainer>
+            <Table variant='simple' colorScheme='teal'>
+              <Thead bg="blue.900">
+                <Tr>
+                  <Th textAlign="center">Name</Th>
+                  <Th textAlign="center">Confirm</Th>
+                  <Th textAlign="center">Delete</Th>
+                </Tr>
+              </Thead>
+
+              <Tbody>
+              {attendees.map((user, index) => (
+                  <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                    <Td textAlign="center">{user.name}</Td>
+                    <Td textAlign="center"><Button colorScheme="green" onClick={handleConfirm}>Confirm</Button></Td>
+                    <Td textAlign="center"><Button colorScheme='red' onClick={handleDeleteAttendee}>Delete</Button></Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+            
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme='red' onClick={handleDelete}>Delete</Button>
+            <Button colorScheme='red' onClick={handleDelete}>Delete Event</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
