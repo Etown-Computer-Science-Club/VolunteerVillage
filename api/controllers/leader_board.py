@@ -11,6 +11,7 @@ users = [
     {"id": "5", "name": "Jack", "volunteerCount": 500},
 ]
 
+
 @bp.route('/leaderboard', methods=['GET'])
 def get_leaderboard():
     """
@@ -19,8 +20,10 @@ def get_leaderboard():
     Returns:
         A JSON response containing the leaderboard data and HTTP status code.
     """
-    leaderboard = sorted(users, key=lambda user: user['score'], reverse=True)
-    return jsonify({"leaderboard": leaderboard}), 200
+    leaderboard = sorted(
+        users, key=lambda user: user['volunteerCount'], reverse=True)
+    return jsonify(leaderboard), 200
+
 
 @bp.route('/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
@@ -38,6 +41,7 @@ def get_user(user_id):
         return jsonify({"user": user}), 200
     else:
         return jsonify({"message": "User not found"}), 404
+
 
 @bp.route('/user/<int:user_id>/score', methods=['PUT'])
 def update_user_score(user_id):
