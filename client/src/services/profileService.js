@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BASE_URL from '.';
 
-const API_URL = BASE_URL + '/profile';
+const API_URL = BASE_URL + 'profile';
 
 export default class ProfileService {
 	static async getProfile() {
