@@ -32,7 +32,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 					domain="henhacks24.us.auth0.com"
 					clientId="lmybOgHn2Xn3v37otNsIYEIcWQCUWZI8"
 					authorizationParams={{
-						redirect_uri: window.location.origin,
             audience: "https://henhacks24.us.auth0.com/api/v2/",
             scope: "openid profile email"
 					}}
