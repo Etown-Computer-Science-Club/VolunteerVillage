@@ -24,41 +24,39 @@ def get_leaderboard():
         users, key=lambda user: user['volunteerCount'], reverse=True)
     return jsonify(leaderboard), 200
 
+@bp.route('/posts', methods=['GET'])
+def get_posts():
+    posts = Post.query.all()
+    posts_data = []
 
-@bp.route('/user/<int:user_id>', methods=['GET'])
-def get_user(user_id):
-    """
-    Get a specific user's information.
+    for post in posts:
+        confirmed_count = db.session.query(func.count(Volunteer.postId)) \
+                             .join(Volunteer, Volunteer.postId == post.id) \
+                             .filter(Volunteer.isConfirmed == True) \
+                             .scalar()
 
-    Args:
-        user_id: The ID of the user.
+        post_data = {
+            'id': post.id,
+            'company': {
+                "userId": post.userId,
+                "name": "Company Name", 
+                "logo": "",
+            },
+            'eventDateStart': post.eventDateStart.isoformat(),
+            'eventDateEnd': post.eventDateEnd.isoformat(),
+            'title': post.title,
+            'description': post.description,
+            'address': {
+                'street': post.street,
+                'city': post.city,
+                'state': post.state,
+                'zip': post.zip,
+            },
+            'userIsVolunteer': False,  # Placeholder - you might need additional logic here 
+            'confirmedVolunteersCount': confirmed_count  # Add the count
+        }
 
-    Returns:
-        A JSON response containing the user's information and HTTP status code.
-    """
-    user = next((user for user in users if user['id'] == user_id), None)
-    if user:
-        return jsonify({"user": user}), 200
-    else:
-        return jsonify({"message": "User not found"}), 404
+        posts_data.append(post_data)
 
+    return jsonify(posts_data), 200
 
-@bp.route('/user/<int:user_id>/score', methods=['PUT'])
-def update_user_score(user_id):
-    """
-    Update a specific user's score.
-
-    Args:
-        user_id: The ID of the user.
-
-    Returns:
-        A JSON response containing the updated user's information and HTTP status code.
-    """
-    user = next((user for user in users if user['id'] == user_id), None)
-    if user:
-        # Placeholder logic to update the user's score
-        new_score = user['score'] + 50
-        user['score'] = new_score
-        return jsonify({"user": user}), 200
-    else:
-        return jsonify({"message": "User not found"}), 404
