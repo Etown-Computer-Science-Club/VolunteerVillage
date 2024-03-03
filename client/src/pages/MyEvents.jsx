@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table, Thead, Tbody, Tr, Th, Td, TableContainer,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -6,30 +6,34 @@ import {
   Button,
   Center
 } from '@chakra-ui/react';
-import postsData from '../posts.json';
+import PostService from '../services/postService';
+import VolunteerService from '../services/volunteerService';
 
 export default function MyEvents() {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
-  const attendees = [
-    {
-      "id": 1,
-      "name": "John Doe",
-      "email": "johndoe@etown.edu"
-    },
-    {
-      "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@etown.edu"
-    },
-    {
-      "id": 3,
-      "name": "John Smith",
-      "email": "johnsmith@etown.edu"
-    }
-  ]
+  const [attendees, setAttendees] = useState([]);
+  const [postsData, setPostsData] = useState([]);
+  
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const data = await PostService.getMyEvents();
+      setPostsData(data);
+    };
+
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    const fetchAttendees = async () => {
+      const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
+      setAttendees(data);
+    };
+
+    fetchAttendees();
+  }, [selectedItemIndex]);
 
   const handleItemClick = (index) => {
     setSelectedItemIndex(index);
@@ -52,8 +56,8 @@ export default function MyEvents() {
         <Table variant='simple' colorScheme='teal'>
           <Thead bg="blue.900">
             <Tr>
-              <Th textAlign="center">Event Date</Th>
-              <Th textAlign="center">Event Title</Th>
+              <Th textAlign="center">End Date</Th>
+              <Th textAlign="center">Title</Th>
               <Th textAlign="center">City</Th>
               <Th textAlign="center">State</Th>
             </Tr>
@@ -62,7 +66,7 @@ export default function MyEvents() {
           <Tbody>
           {postsData.map((user, index) => (
               <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                <Td textAlign="center">{user.eventDate}</Td>
+                <Td textAlign="center">{user.eventDateEnd}</Td>
                 <Td textAlign="center">{user.title}</Td>
                 <Td textAlign="center">{user.address.city}</Td>
                 <Td textAlign="center">{user.address.state}</Td>
@@ -71,7 +75,7 @@ export default function MyEvents() {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal  isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent  >
           <ModalHeader>Attendees</ModalHeader>
