@@ -16,6 +16,11 @@ export default function MyEvents() {
 
   const [attendees, setAttendees] = useState([]);
   const [postsData, setPostsData] = useState([]);
+
+  const handleClose = () => {
+    setAttendees([]);
+    onClose(); 
+  }
   
   useEffect(() => {
     const fetchPosts = async () => {
@@ -61,9 +66,7 @@ export default function MyEvents() {
     try {
       await VolunteerService.deleteAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
       setAttendees(prevAttendees => {
-        const newAttendees = [...prevAttendees];
-        newAttendees.splice(index, 1);
-        return newAttendees;
+        return prevAttendees.filter((attendee, i) => i !== index);
       });
     } catch (error) {
       console.error('Failed to delete attendee:', error);
@@ -95,7 +98,7 @@ export default function MyEvents() {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent  >
           <ModalHeader>Attendees</ModalHeader>
@@ -130,7 +133,7 @@ export default function MyEvents() {
             
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button colorScheme='blue' mr={3} onClick={handleClose}>
               Close
             </Button>
             <Button colorScheme='red' onClick={handleDelete}>Delete Event</Button>
