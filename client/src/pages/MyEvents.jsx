@@ -33,9 +33,11 @@ export default function MyEvents() {
 
   useEffect(() => {
     const fetchAttendees = async () => {
-      if (selectedItemIndex === null) {
+      if (selectedItemIndex == null) {
         return;
       }
+      console.log(postsData)
+      console.log(selectedItemIndex)
       const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
       setAttendees(data);
     };
@@ -120,7 +122,7 @@ export default function MyEvents() {
                     return null;
                   }
                   return (
-                    <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                    <Tr key={index} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                       <Td textAlign="center">{user.name}</Td>
                       <Td textAlign="center"><Button colorScheme="green" onClick={() => handleConfirm(index)}>Confirm</Button></Td>
                       <Td textAlign="center"><Button colorScheme='red' onClick={() => handleDeleteAttendee(index)}>Delete</Button></Td>
