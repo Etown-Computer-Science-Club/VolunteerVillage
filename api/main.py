@@ -2,8 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from database.db import db
 from dotenv import load_dotenv
-from blueprints import posts_bp, badges_bp
 import os
+
+from controllers.posts import bp as posts_bp
+from controllers.badges import bp as badges_bp
 
 load_dotenv()
 
