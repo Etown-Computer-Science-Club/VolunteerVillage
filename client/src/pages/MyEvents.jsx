@@ -18,6 +18,10 @@ export default function MyEvents() {
     onOpen();
   }
 
+  const handleDelete = () => {
+    console.log('Deleting event');
+  }
+
   return (
     <Center>
         <TableContainer w="75vw">
@@ -55,7 +59,7 @@ export default function MyEvents() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme='red'>Delete</Button>
+            <Button colorScheme='red' onClick={handleDelete}>Delete</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

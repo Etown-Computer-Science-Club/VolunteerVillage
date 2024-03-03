@@ -19,6 +19,10 @@ export default function Events() {
     setSelectedItemIndex(index);
     onOpen();
   }
+  
+  const handleSignUp = () => {
+    console.log('Signing up for event');
+  }
 
   return (
     <Center>
@@ -59,7 +63,7 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            {isAuthenticated && <Button colorScheme='green'>Sign Up</Button>}
+            {isAuthenticated && <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
           </ModalFooter>
         </ModalContent>
       </Modal>
