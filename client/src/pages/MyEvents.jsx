@@ -37,8 +37,6 @@ export default function MyEvents() {
       if (selectedItemIndex == null) {
         return;
       }
-      console.log(postsData)
-      console.log(selectedItemIndex)
       const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
       setAttendees(data);
     };
@@ -53,6 +51,9 @@ export default function MyEvents() {
   const handleDelete = async() => {
     try{
       await PostService.deleteEvent(postsData[selectedItemIndex].id);
+      handleClose();
+      const data = await PostService.getEvents();
+      setPostsData(data);
     } catch (error){
       console.error('Failed to delete event:', error);
     }
