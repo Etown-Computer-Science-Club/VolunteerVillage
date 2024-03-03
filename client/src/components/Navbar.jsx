@@ -1,4 +1,4 @@
-import { Link, Flex, Text, Spacer, Image, Avatar, Menu, MenuButton, MenuList, MenuItem, Button, Center, ButtonGroup } from "@chakra-ui/react";
+import { Link, Flex, Text, Spacer, Image, Avatar, Menu, MenuButton, MenuList, MenuItem, Button, Center, ButtonGroup, VStack } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import Login from "./Login";
@@ -17,19 +17,43 @@ export default function Navbar() {
 			<Link as={RouterLink} to={"/"} mr={5}>
 				Home
 			</Link>
-			<Link as={RouterLink} to={"/events"} mr={5}>
-				Events
-			</Link>
 			<Link as={RouterLink} to={"/leaderboard"} mr={5}>
 				Leaderboard
 			</Link>
+			{!isAuthenticated && (
+			<Link as={RouterLink} to={"/events"} mr={5}>
+				Events
+			</Link>
+			)}
+			{isAuthenticated && (
+				<Menu >
+					<MenuButton fontSize="20px" mr={5} as={Button} variant='link' rightIcon={<ChevronDownIcon />}>
+						Events
+					</MenuButton>
+					<MenuList>
+						<VStack fontSize="15px">
+						<Link as={RouterLink} to={"/events"} >
+							All Events
+						</Link>
+						<Link as={RouterLink} to={"/myevents"}>
+							My Events
+						</Link>
+						<Link as={RouterLink} to={"/create"} >
+							Add Event
+						</Link>
+						</VStack>
+					</MenuList>
+				</Menu>
+			)}
+			
+			
 			{!isAuthenticated && <Login />}
 			{!isAuthenticated && <Signup />}
 			{isAuthenticated && (
 
 				
 				<Menu>
-					<MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+					<MenuButton as={Button} variant='ghost' rightIcon={<ChevronDownIcon />}>
 						<Avatar size="sm" src={user.picture} name={user.name} />
 					</MenuButton>
 					<MenuList>
@@ -39,10 +63,7 @@ export default function Navbar() {
 						<Text fontSize="15px" textAlign="center"> {user.name}</Text>
 						<Text fontSize="15px" textAlign="center"> {user.email}</Text>
 						<Center pt="5px">
-							<ButtonGroup>
-								<Button as={RouterLink} to={"/myevents"}>My Events</Button>
 								<Logout />
-							</ButtonGroup>
 						</Center>
 					</MenuList>
 				</Menu>

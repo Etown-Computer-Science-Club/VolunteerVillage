@@ -7,8 +7,10 @@ import {
   Center
 } from '@chakra-ui/react';
 import postsData from '../posts.json';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Events() {
+  const { user, isAuthenticated } = useAuth0();
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
@@ -57,7 +59,7 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme='green'>Sign Up</Button>
+            {isAuthenticated && <Button colorScheme='green'>Sign Up</Button>}
           </ModalFooter>
         </ModalContent>
       </Modal>
