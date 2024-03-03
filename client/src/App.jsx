@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes, Route} from "react-router-dom";
 import { Flex } from '@chakra-ui/react';
+import { useState } from 'react';
 
 // Components
 import Footer from './components/Footer';
@@ -12,8 +13,26 @@ import Events from './pages/Events';
 import Leaderboard from './pages/Leaderboard';
 import Create from './pages/Create';
 import MyEvents from './pages/MyEvents';
+import useInterceptor from './shared/hooks/useInterceptor';
+import { useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function App() {
+  const [ isLoading, setIsLoading ] = useState(true);
+  const { isLoading: isAuthLoading } = useAuth0();
+  const setInterceptors = useInterceptor();
+  
+  useEffect(() => {
+    if (!isAuthLoading) {
+      setInterceptors();
+      setIsLoading(false);
+    }
+  }, [isAuthLoading, setInterceptors])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Flex flexDirection="column" minHeight="100vh">
       <Navbar />
