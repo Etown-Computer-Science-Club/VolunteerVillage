@@ -110,7 +110,7 @@ export default function Events() {
 				</Table>
 			</TableContainer>
 			{selectedItemIndex != null && (
-				<Modal isOpen={isOpen} onClose={onClose} size="xl">
+				<Modal isOpen={isOpen} onClose={onClose} size="3xl">
 					<ModalOverlay />
 					<ModalContent>
 						<ModalHeader style={{ textAlign: "center", fontSize: "24px" }}>
@@ -126,7 +126,7 @@ export default function Events() {
 								<Divider orientation="horizontal" mt={2.5} />
 								<Box style={{ display: "flex", justifyContent: "space-between" }}>
 									<Box style={{ width: "50%", fontSize: "20px" }}>
-										<Text style={{ fontSize: "20px" }}>
+										<Text style={{ fontSize: "21px" }}>
 											<Icon as={MdLocationOn} />{" "}
 											{postsData[selectedItemIndex].address.zip},{" "}
 											{postsData[selectedItemIndex].address.street},{" "}
@@ -135,8 +135,8 @@ export default function Events() {
 										</Text>
 									</Box>
 									<Divider orientation="vertical" h="100px" mr="2" ml="2" />
-									<Box style={{ width: "50%", fontSize: "20px" }}>
-										<Box style={{ display: "flex", alignItems: "center" }}>
+									<Box style={{ width: "50%", fontSize: "21px" }}>
+										<Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 											<CalendarIcon style={{ marginRight: "10px" }} />
 											<Text>
 												{
@@ -161,7 +161,7 @@ export default function Events() {
 											</Text>
 										</Box>
 										<Text>to</Text>
-										<Box style={{ display: "flex", alignItems: "center" }}>
+										<Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 											<CalendarIcon style={{ marginRight: "10px" }} />
 											<Text>
 												{
