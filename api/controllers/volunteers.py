@@ -14,6 +14,7 @@ def get_volunteers(postId):
         volunteer_data = {
             'userId': volunteer.userId,
             'postId': volunteer.postId,
+            'name': "",
             'signedUpAt': volunteer.signedUpAt.isoformat(),
             'isConfirmed': volunteer.isConfirmed,
             'confirmedAt': volunteer.confirmedAt.isoformat() if volunteer.confirmedAt else None,
