@@ -7,7 +7,8 @@ import {
   Center,
   Box,
   Text,
-  Divider
+  Divider,
+  Tooltip
 } from '@chakra-ui/react';
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from '../services/postService';
@@ -123,7 +124,9 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            {(isAuthenticated && selectedItemIndex !== null && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
+            <Tooltip textAlign="center" label="You cannot sign up for an event without signing in first" isDisabled={isAuthenticated}>
+              {(selectedItemIndex !== null && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' isDisabled={!isAuthenticated} onClick={handleSignUp}>Sign Up</Button>}
+            </Tooltip>
           </ModalFooter>
         </ModalContent>
       </Modal>
