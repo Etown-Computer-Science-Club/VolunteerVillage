@@ -17,6 +17,7 @@ import {
 	useDisclosure,
 	Button,
 	Center,
+	Spinner,
 	Box,
 	Text,
 	Divider,
@@ -45,10 +46,12 @@ export default function Events() {
 	const [postsData, setPostsData] = useState([]);
 	const [buttonLoading, setButtonLoading] = useState(false);
 	const [isConfettiActive, setIsConfettiActive] = useState(false);
+	const [isFetching, setIsFetching] = useState(false);
 	const [width, height] = useWindowSize();
 
 	useEffect(() => {
 		const fetchPosts = async () => {
+			setIsFetching(true);
 		  try {
 			const data = await PostService.getEvents();
 			setPostsData(data);
@@ -60,6 +63,8 @@ export default function Events() {
 			  duration: 5000,
 			  isClosable: true,
 			});
+		  } finally {
+			setIsFetching(false);
 		  }
 		};
 	  
@@ -98,7 +103,19 @@ export default function Events() {
 		  setButtonLoading(false);
 		}
 	  };
-
+	
+	if (isFetching) {
+		return(
+			<Center height="100vh">
+				<Box>
+				<Text fontSize="3xl" mb="20px">Fetching data...</Text>
+				<Center>
+							<Spinner size={"xl"}/>
+				</Center>
+				</Box>
+			</Center>
+		)
+	}else{
 	return (
 		<Center>
 			<TableContainer>
@@ -237,4 +254,5 @@ export default function Events() {
 			{isConfettiActive && <Confetti recycle={false} width={width} height={height} />}
 		</Center>
 	);
+}
 }

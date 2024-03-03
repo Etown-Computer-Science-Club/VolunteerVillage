@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Table, Text, Thead, Tbody, Tr, Th, Td, Center, useToast } from "@chakra-ui/react";
+import { Box, Table, Text, Thead, Tbody, Tr, Th, Td, Center, useToast, Spinner } from "@chakra-ui/react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,9 +24,12 @@ ChartJS.register(
 export default function Leaderboard() {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const toast = useToast();
+	const [isFetching, setIsFetching] = useState(false);
+
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
+      setIsFetching(true);
       try {
         const data = await LeaderboardService.getTop10();
         setLeaderboardData(data);
@@ -38,6 +41,8 @@ export default function Leaderboard() {
           duration: 5000,
           isClosable: true,
         });
+      } finally {
+        setIsFetching(false);
       }
     };
 
@@ -76,6 +81,18 @@ export default function Leaderboard() {
       },
     ],
   };
+  if (isFetching) {
+		return(
+			<Center height="100vh">
+        <Box>
+          <Text fontSize="3xl" mb="20px">Fetching data...</Text>
+          <Center>
+				    <Spinner size={"xl"}/>
+          </Center>
+        </Box>
+			</Center>
+		)
+	}else{
   return (
     <Box p="20px">
       <Center>
@@ -107,4 +124,4 @@ export default function Leaderboard() {
       </Center>
     </Box>
   );
-}
+}}
