@@ -51,7 +51,7 @@ def create_post():
 
     data = request.get_json()
     title = data.get('title')
-    description = data.get('content')
+    description = data.get('description')
     eventDateStart = data.get('eventDateStart')
     eventDateEnd = data.get('eventDateEnd')
     street = data.get('street')
