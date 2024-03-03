@@ -6,7 +6,10 @@ import {
   Button,
   Center,
   Tooltip,
-  useToast
+  useToast,
+  Spinner,
+  Text,
+  Box
 } from '@chakra-ui/react';
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
@@ -21,6 +24,7 @@ export default function MyEvents() {
   const toast = useToast();
   const [attendees, setAttendees] = useState([]);
   const [postsData, setPostsData] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleClose = () => {
     setAttendees([]);
@@ -29,6 +33,7 @@ export default function MyEvents() {
   
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsFetching(true);
       try {
         const data = await PostService.getMyEvents();
         setPostsData(data);
@@ -40,6 +45,8 @@ export default function MyEvents() {
           duration: 5000,
           isClosable: true,
         });
+      } finally {
+        setIsFetching(false);
       }
     };
   
@@ -124,7 +131,18 @@ const handleDeleteAttendee = async(index) => {
     });
   }
 }
-
+if (isFetching) {
+  return(
+    <Center height="100vh">
+      <Box>
+      <Text fontSize="3xl" mb="20px">Fetching data...</Text>
+      <Center>
+            <Spinner size={"xl"}/>
+      </Center>
+      </Box>
+    </Center>
+  )
+}else{
   return (
     <Center>
         <TableContainer >
@@ -203,4 +221,4 @@ const handleDeleteAttendee = async(index) => {
       </Modal>
     </Center>
   )
-}
+}}
