@@ -54,9 +54,9 @@ const Profile = () => {
 						/>
 					</FormControl>
 					<Center>
-					<Button colorScheme="blue" m={5} onClick={handleSubmit}>
-						Update Profile
-					</Button>
+						<Button colorScheme="blue" m={5} onClick={handleSubmit}>
+							Update Profile
+						</Button>
 					</Center>
 				</Box>
 			</Center>
