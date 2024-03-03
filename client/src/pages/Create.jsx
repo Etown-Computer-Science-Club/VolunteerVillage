@@ -1,5 +1,6 @@
 import { Box, Button, Center, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
 import { useState } from "react";
+import PostService from "../services/postService";
 
 export default function Create() {
     const [eventDateStart, setEventDateStart] = useState("");
@@ -11,22 +12,19 @@ export default function Create() {
     const [state, setState] = useState("");
     const [zip, setZip] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         const event = {
             eventDateStart,
             eventDateEnd,
             title,
             description,
-            address: {
-                street,
-                city,
-                state,
-                zip
-            }
+            street,
+            city,
+            state,
+            zip
         };
-        console.log(event);
-        console.log(JSON.stringify(event))
+        await PostService.createEvent(event);
     };
 
     return (
