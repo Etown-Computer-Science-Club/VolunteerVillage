@@ -46,7 +46,16 @@ export default function MyEvents() {
     console.log('Deleting event');
   }
   const handleConfirm = async(index) => {
-    await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].id);
+    try {
+      await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+      setAttendees(prevAttendees => {
+        const newAttendees = [...prevAttendees];
+        newAttendees.splice(index, 1);
+        return newAttendees;
+      });
+    } catch (error) {
+      console.error('Failed to confirm attendee:', error);
+    }
   }
   const handleDeleteAttendee = (index) => {
     console.log('Deleting attendee');
@@ -101,8 +110,8 @@ export default function MyEvents() {
                   return (
                     <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                       <Td textAlign="center">{user.name}</Td>
-                      <Td textAlign="center"><Button colorScheme="green" onClick={handleConfirm(index)}>Confirm</Button></Td>
-                      <Td textAlign="center"><Button colorScheme='red' onClick={handleDeleteAttendee(index)}>Delete</Button></Td>
+                      <Td textAlign="center"><Button colorScheme="green" onClick={() => handleConfirm(index)}>Confirm</Button></Td>
+                      <Td textAlign="center"><Button colorScheme='red' onClick={() => handleDeleteAttendee(index)}>Delete</Button></Td>
                     </Tr>
                   );
                 })}
