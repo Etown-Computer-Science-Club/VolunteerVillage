@@ -70,7 +70,49 @@ export default function Events() {
           <ModalHeader>Event Details</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedItemIndex !== null && postsData[selectedItemIndex].description}
+            {selectedItemIndex !== null && 
+                <div style={{textAlign: 'center' }}>
+                  <p style={{ fontSize: '20px'}}>Title</p>
+                  <p style={{ fontSize: '24px', border: '5px outset green', borderRadius: '5px'}}>
+                  {
+                    postsData[selectedItemIndex].title.trim().split(' ').map((word, index, array) =>
+                    (index !== array.length - 1 || !word.endsWith('.')) ? 
+                    word.charAt(0).toUpperCase() + word.slice(1) : 
+                    ''
+                    ).join(' ')}
+                  </p>
+                  <p style={{ fontSize: '20px', border: '5px outset blue', borderRadius: '5px'}}>{postsData[selectedItemIndex].description}</p>
+                  <p style={{ fontSize: '20px', border: '5px inset blue', borderRadius: '5px'}}>{postsData[selectedItemIndex].company.name}</p>
+                  <p style={{ fontSize: '20px', border: '5px inset blue', borderRadius: '5px'}}>
+                    <AtSignIcon /> {postsData[selectedItemIndex].address.zip}, {postsData[selectedItemIndex].address.street}, {postsData[selectedItemIndex].address.city}, {postsData[selectedItemIndex].address.state}
+                  </p>
+                  <p style={{ fontSize: '20px', border: '5px outset blue', borderRadius: '5px'}}>
+                  <div>
+                    <CalendarIcon />
+                    <span style={{ marginRight: '5px' }}>
+                      {postsData[selectedItemIndex].eventDateStart.split('T')[0]}
+                    </span>
+                    <br />
+                    <TimeIcon />
+                    <span>
+                      {postsData[selectedItemIndex].eventDateStart.split('T')[1]}
+                    </span>
+                  </div>
+                  <ChevronDownIcon /><ChevronDownIcon /><ChevronDownIcon />{/* Add a line break between start and end dates */}
+                  <div> {/* Wrap the end date and time with a div */}
+                    <CalendarIcon />
+                    <span style={{ marginRight: '5px' }}>
+                      {postsData[selectedItemIndex].eventDateEnd.split('T')[0]}
+                    </span>
+                    <br />
+                    <TimeIcon />
+                    <span>
+                      {postsData[selectedItemIndex].eventDateEnd.split('T')[1]}
+                    </span>
+                  </div>
+                </p>
+                </div>
+            }
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
