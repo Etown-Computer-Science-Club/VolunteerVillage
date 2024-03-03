@@ -76,7 +76,7 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            {(isAuthenticated && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
+            {(isAuthenticated && selectedItemIndex !== null && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
           </ModalFooter>
         </ModalContent>
       </Modal>
