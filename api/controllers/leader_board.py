@@ -14,8 +14,7 @@ def get_leaderboard():
     ) \
         .filter(Volunteer.isConfirmed == True) \
         .group_by(Volunteer.userId) \
-        .order_by(func.count(Volunteer.postId).desc())  # Order by count
-    all()
+        .order_by(func.count(Volunteer.postId).desc())  # Order by count in descending order
 
     leaderboard_data = []
     for rank, volunteer in enumerate(confirmed_volunteers, start=1):  # Add ranking
