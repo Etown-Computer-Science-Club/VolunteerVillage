@@ -181,7 +181,7 @@ export default function Events() {
 					</Thead>
 
 					<Tbody>
-						{postsData.map((user, index) => {
+					{filterEvents().map((user, index) => {
 							if (new Date(user.eventDateEnd).getTime() < new Date().getTime()) {
 								return null;
 							}
