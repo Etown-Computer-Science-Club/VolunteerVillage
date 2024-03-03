@@ -30,6 +30,11 @@ import { Icon } from "@chakra-ui/react";
 import { MdLocationOn } from "react-icons/md";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
+import { format, compareAsc } from "date-fns";
+
+const DTFORMAT="MMMM do h:m a"
+const DATEFORMAT="MMM do"
+const TIMEFORMAT="h:m a"
 
 export default function Events() {
 	const { user, isAuthenticated } = useAuth0();
@@ -98,8 +103,8 @@ export default function Events() {
 									bg="gray.900"
 								>
 									<Td textAlign="center">{user.company.name}</Td>
-									<Td textAlign="center">{user.eventDateStart}</Td>
-									<Td textAlign="center">{user.eventDateEnd}</Td>
+									<Td textAlign="center">{format(new Date(user.eventDateStart), DTFORMAT)}</Td>
+									<Td textAlign="center">{format(new Date(user.eventDateEnd), DTFORMAT)}</Td>
 									<Td textAlign="center">{user.title}</Td>
 									<Td textAlign="center">{user.address.city}</Td>
 									<Td textAlign="center">{user.address.state}</Td>
@@ -128,10 +133,10 @@ export default function Events() {
 									<Box style={{ width: "50%", fontSize: "20px" }}>
 										<Text style={{ fontSize: "21px" }}>
 											<Icon as={MdLocationOn} />{" "}
-											{postsData[selectedItemIndex].address.zip},{" "}
 											{postsData[selectedItemIndex].address.street},{" "}
 											{postsData[selectedItemIndex].address.city},{" "}
-											{postsData[selectedItemIndex].address.state}
+											{postsData[selectedItemIndex].address.state},{" "}
+                      {postsData[selectedItemIndex].address.zip}
 										</Text>
 									</Box>
 									<Divider orientation="vertical" h="100px" mr="2" ml="2" />
@@ -139,11 +144,9 @@ export default function Events() {
 										<Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 											<CalendarIcon style={{ marginRight: "10px" }} />
 											<Text>
-												{
-													postsData[
-														selectedItemIndex
-													].eventDateStart.split("T")[0]
-												}
+                        {
+                          format(new Date(postsData[selectedItemIndex].eventDateStart), DATEFORMAT)
+                        }
 											</Text>
 
 											<TimeIcon
@@ -153,22 +156,18 @@ export default function Events() {
 												}}
 											/>
 											<Text>
-												{postsData[selectedItemIndex].eventDateStart
-													.split("T")[1]
-													.split(":")
-													.slice(0, 2)
-													.join(":")}
+                        {
+                          format(new Date(postsData[selectedItemIndex].eventDateStart), TIMEFORMAT)
+                        }
 											</Text>
 										</Box>
 										<Text>to</Text>
 										<Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 											<CalendarIcon style={{ marginRight: "10px" }} />
 											<Text>
-												{
-													postsData[selectedItemIndex].eventDateEnd.split(
-														"T"
-													)[0]
-												}
+                        {
+                          format(new Date(postsData[selectedItemIndex].eventDateEnd), DATEFORMAT)
+                        }
 											</Text>
 											<TimeIcon
 												style={{
@@ -177,11 +176,9 @@ export default function Events() {
 												}}
 											/>
 											<Text>
-												{postsData[selectedItemIndex].eventDateEnd
-													.split("T")[1]
-													.split(":")
-													.slice(0, 2)
-													.join(":")}
+                        {
+                          format(new Date(postsData[selectedItemIndex].eventDateEnd), TIMEFORMAT)
+                        }
 											</Text>
 										</Box>
 									</Box>
