@@ -15,7 +15,9 @@ def get_profile_details():
     user_info = get_user_info_with_userids(user_ids)
     user_info = user_info[0]
 
-    return jsonify(user_info), 200
+    return jsonify({
+        'picture': user_info.get("picture"), 'name': get_name(user_info)
+    }), 200
 
 
 @bp.route('/profile', methods=['PUT'])
