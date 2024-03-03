@@ -45,3 +45,31 @@ def create_post():
     db.session.commit()
 
     return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
+
+# @bp.route('/posts/<int:postId>', methods=['DELETE'])
+# def delete_post(postId):
+#     volunteer = Volunteer.query.filter_by(
+#         postId=postId, userId=(userId)).first()
+
+#     if not volunteer:
+#         return jsonify({'message': 'Volunteer not found'}), 404
+
+#     db.session.delete(volunteer)
+#     db.session.commit()
+
+#     return jsonify({'message': 'Volunteer deleted successfully'}), 200
+
+# from flask import jsonify
+
+@bp.route('/posts/<int:postId>', methods=['DELETE'])
+def delete_post(postId):
+    post = Post.query.get_or_404(postId)  # Assumes you have a 'Post' model
+
+    # Authorization check (optional, but recommended):
+    if post.author_id != userId:  # Assuming 'author_id' on the Post model
+        return jsonify({'message': 'Unauthorized to delete this post'}), 403
+
+    db.session.delete(post)
+    db.session.commit()
+
+    return jsonify({'message': 'Post deleted successfully'}), 200
