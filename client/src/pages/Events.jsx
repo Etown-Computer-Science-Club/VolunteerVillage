@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table, Thead, Tbody, Tr, Th, Td, TableContainer,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -6,14 +6,24 @@ import {
   Button,
   Center
 } from '@chakra-ui/react';
-import postsData from '../posts.json';
 import { useAuth0 } from "@auth0/auth0-react";
+import PostService from '../services/postService';
 
 export default function Events() {
   const { user, isAuthenticated } = useAuth0();
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [postsData, setPostsData] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const data = await PostService.getEvents();
+      setPostsData(data);
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleItemClick = (index) => {
     setSelectedItemIndex(index);
