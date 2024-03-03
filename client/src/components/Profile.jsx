@@ -36,7 +36,7 @@ const Profile = () => {
 	};
 
 	return (
-		<VStack as="form" onSubmit={handleSubmit} spacing={4} align="flex-start">
+		<VStack as="form" onSubmit={handleSubmit} spacing={5} align="flex-start">
 			<Center>
 				<Box w="100%">
 					<FormControl>
@@ -53,10 +53,11 @@ const Profile = () => {
 							accept="image/*"
 						/>
 					</FormControl>
-
-					<Button colorScheme="blue" onClick={handleSubmit}>
+					<Center>
+					<Button colorScheme="blue" m={5} onClick={handleSubmit}>
 						Update Profile
 					</Button>
+					</Center>
 				</Box>
 			</Center>
 		</VStack>
