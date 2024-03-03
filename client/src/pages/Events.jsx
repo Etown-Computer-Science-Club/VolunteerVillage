@@ -81,7 +81,7 @@ export default function Events() {
 				<Table variant="simple" colorScheme="teal">
 					<Thead bg="blue.900">
 						<Tr>
-							<Th textAlign="center">Company</Th>
+							<Th textAlign="center">Host</Th>
 							<Th textAlign="center">Start Date</Th>
 							<Th textAlign="center">End Date</Th>
 							<Th textAlign="center">Title</Th>
