@@ -13,10 +13,11 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
-import { CalendarIcon, TimeIcon, ChevronDownIcon, AtSignIcon } from '@chakra-ui/icons';
+import { CalendarIcon, TimeIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
-import { MdLocationOn, MdExpandMore } from 'react-icons/md';
+import { MdLocationOn } from 'react-icons/md';
 import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
 
 
 export default function Events() {
@@ -25,6 +26,7 @@ export default function Events() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [postsData, setPostsData] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [isConfettiActive, setIsConfettiActive] = useState(false);
   const [width, height] = useWindowSize();
 
@@ -43,12 +45,21 @@ export default function Events() {
   }
   
   const handleSignUp = async() => {
-    await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
-    setIsConfettiActive(true);
+    setButtonLoading(true);
+    try {
+      await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
+      setIsConfettiActive(true);
 			setTimeout(() => {
 				setIsConfettiActive(false);
-			}, 30000);
+        setButtonLoading(false);
+			}, 3000);
 
+    } catch (error) {
+      console.error(error);
+      setButtonLoading(false);
+    
+    } 
+    
 
   }
 
@@ -139,7 +150,7 @@ export default function Events() {
               Close
             </Button>
             <Tooltip textAlign="center" label="You cannot sign up for an event without signing in first" isDisabled={isAuthenticated}>
-              {(selectedItemIndex !== null && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' isDisabled={!isAuthenticated} onClick={handleSignUp}>Sign Up</Button>}
+              {(selectedItemIndex !== null && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' isLoading={buttonLoading} isDisabled={!isAuthenticated} onClick={handleSignUp}>Sign Up</Button>}
             </Tooltip>
           </ModalFooter>
         </ModalContent>
