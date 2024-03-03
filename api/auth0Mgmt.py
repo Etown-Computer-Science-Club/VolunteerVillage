@@ -71,6 +71,25 @@ def get_name(user_obj):
         return user_obj["nickname"]
 
 
+def update_user_profilepic(user_id, profile_pic_url=None, name=None):
+    token = check_token()
+    url = f"https://{AUTH0_DOMAIN}/api/v2/users/{user_id}"
+    headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+    }
+
+    payload = {}
+    if profile_pic_url:
+        payload['picture'] = profile_pic_url
+    if name:
+        payload['username'] = name
+        payload['connection'] = 'Username-Password-Authentication'
+
+    response = requests.request("PATCH", url, headers=headers, json=payload)
+    return response.json()
+
+
 # @app.route('/get-token')
 # def get_token():
 #     """Endpoint to get a valid Auth0 token."""

@@ -1,7 +1,10 @@
 from flask import jsonify, g, Blueprint, jsonify
 from flask import request
 from auth import requires_auth
-from auth0Mgmt import get_user_info_with_userids, get_name
+from auth0Mgmt import get_user_info_with_userids, get_name, update_user_profilepic
+from werkzeug.utils import secure_filename
+import os
+from firebase import upload_profile_picture
 
 bp = Blueprint('profile', __name__)
 
@@ -25,14 +28,26 @@ def get_profile_details():
 def update_profile_details():
     user_id = g.user.get('sub')
 
-    file = request.files['file']
+    file = request.files['file'] if 'file' in request.files else None
+    public_url = None
 
     if file and file.filename != '':
-        # firebase
-        pass
+        filename = secure_filename(file.filename)
+        temp_path = os.path.join('/tmp', filename)
+        file.save(temp_path)
 
-    name = request.form.get('name', '')
+        try:
+            public_url = upload_profile_picture(temp_path, user_id)
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+    else:
+        file = None
 
-    if name:
-        # update name
-        pass
+    name = request.form.get('name', None)
+
+    update_user_profilepic(user_id, public_url, name)
+
+    return jsonify({
+        'picture': public_url, 'name': name, 'connection': 'Username-Password-Authentication'
+    }), 200
