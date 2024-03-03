@@ -9,6 +9,9 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
+import { CalendarIcon, TimeIcon, ChevronDownIcon, AtSignIcon } from '@chakra-ui/icons'
+
+
 
 export default function Events() {
   const { user, isAuthenticated } = useAuth0();
