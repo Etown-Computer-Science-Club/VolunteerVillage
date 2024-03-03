@@ -25,28 +25,29 @@ def get_volunteers(postId):
     return jsonify(volunteers_data), 200
 
 
-# @bp.route('/volunteers/<int:postId>/<string:userId>/confirm', methods=['POST'])
-# def confirm_volunteer(postId, userId):
-#     volunteer = Volunteer.query.filter_by(
-#         postId=postId, userId=str(userId)).first()
+@bp.route('/volunteers/<int:postId>/<string:userId>', methods=['GET'])
+def add_volunteer(postId, userId):
+    volunteer = Volunteer.query.filter_by(
+        postId=postId, userId=userId).first()
 
-#     if not volunteer:
-#         return jsonify({'message': 'Volunteer not found'}), 404
+    if volunteer:
+        return jsonify({'message': 'Volunteer already exists'}), 400
 
-#     volunteer.isConfirmed = True
-#     volunteer.confirmedAt = datetime.utcnow()
+    new_volunteer = Volunteer(
+        postId=postId, userId=userId, signedUpAt=datetime.utcnow(), isConfirmed=False)
 
-#     db.session.commit()
+    db.session.add(new_volunteer)
+    db.session.commit()
 
-#     volunteer_data = {
-#         'userId': volunteer.userId,
-#         'postId': volunteer.postId,
-#         'signedUpAt': volunteer.signedUpAt.isoformat(),
-#         'isConfirmed': volunteer.isConfirmed,
-#         'confirmedAt': volunteer.confirmedAt.isoformat(),
-#     }
+    volunteer_data = {
+        'userId': new_volunteer.userId,
+        'postId': new_volunteer.postId,
+        'signedUpAt': new_volunteer.signedUpAt.isoformat(),
+        'isConfirmed': new_volunteer.isConfirmed,
+        'confirmedAt': None,
+    }
 
-#     return jsonify(volunteer_data), 200
+    return jsonify(volunteer_data), 200
 
 
 @bp.route('/volunteers/<int:postId>/<string:userId>/confirm', methods=['POST'])
