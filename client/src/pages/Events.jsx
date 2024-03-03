@@ -23,6 +23,9 @@ import {
 	Divider,
 	Tooltip,
 	useToast,
+	Select,
+	Input,
+	Flex
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from "../services/postService";
@@ -48,6 +51,20 @@ export default function Events() {
 	const [isConfettiActive, setIsConfettiActive] = useState(false);
 	const [isFetching, setIsFetching] = useState(false);
 	const [width, height] = useWindowSize();
+
+	// Add state variables for the sort option and postal code input
+	const [sortOption, setSortOption] = useState('date');
+	const [postalCodeInput, setPostalCodeInput] = useState('');
+  
+	// Add a function to handle the change of the sort option
+	const handleSortOptionChange = (e) => {
+	  setSortOption(e.target.value);
+	}
+  
+	// Add a function to handle the change of the postal code input
+	const handlePostalCodeInputChange = (e) => {
+	  setPostalCodeInput(e.target.value);
+	}
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -103,6 +120,27 @@ export default function Events() {
 		  setButtonLoading(false);
 		}
 	  };
+
+	  const filterEvents = () => {
+		let filtered = [...postsData];
+	
+		if (postalCodeInput) {
+		  filtered = filtered.filter(event => event.address.zip === postalCodeInput);
+		}
+	
+		switch (sortOption) {
+		  case 'date':
+			filtered.sort((a, b) => compareAsc(new Date(a.eventDateStart), new Date(b.eventDateStart)));
+			break;
+		  case 'postalCode':
+			filtered.sort((a, b) => a.address.zip.localeCompare(b.address.zip));
+			break;
+		  default:
+			break;
+		}
+	
+		return filtered;
+	  };
 	
 	if (isFetching) {
 		return(
@@ -117,7 +155,18 @@ export default function Events() {
 		)
 	}else{
 	return (
+		<Box>
+		<Center mb="20px" >
+			<Flex w="75vw">
+			<Select w="25vw" value={sortOption} onChange={handleSortOptionChange}>
+				<option value="date">Sort by Date</option>
+				<option value="postalCode">Sort by Postal Code</option>
+			</Select>
+			<Input value={postalCodeInput} onChange={handlePostalCodeInputChange} placeholder="Enter Postal Code" />
+			</Flex>
+			</Center>
 		<Center>
+			
 			<TableContainer>
 				<Table variant="simple" colorScheme="teal">
 					<Thead bg="blue.900">
@@ -253,6 +302,7 @@ export default function Events() {
 			)}
 			{isConfettiActive && <Confetti recycle={false} width={width} height={height} />}
 		</Center>
+		</Box>
 	);
 }
 }
