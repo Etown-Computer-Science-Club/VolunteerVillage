@@ -63,8 +63,6 @@ def get_user_info_with_userids(userids):
 
 
 def get_name(user_obj):
-    print(user_obj)
-
     if "username" in user_obj:
         return user_obj["username"]
     if "name" in user_obj:

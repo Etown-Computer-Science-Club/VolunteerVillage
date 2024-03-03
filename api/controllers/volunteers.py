@@ -3,6 +3,7 @@ from database.db import db
 from database.volunteer import Volunteer
 from datetime import datetime
 from auth import requires_auth
+from auth0Mgmt import get_user_info_with_userids, get_name
 
 bp = Blueprint('volunteers', __name__)
 
@@ -12,12 +13,16 @@ bp = Blueprint('volunteers', __name__)
 def get_volunteers(postId):
     volunteers = Volunteer.query.filter_by(postId=postId).all()
 
+    user_ids = [volunteer.userId for volunteer in volunteers]
+    user_info = get_user_info_with_userids(user_ids)
+    user_info = {user['user_id']: user for user in user_info}
+
     volunteers_data = []
     for volunteer in volunteers:
         volunteer_data = {
             'userId': volunteer.userId,
             'postId': volunteer.postId,
-            'name': "",
+            'name': get_name(user_info[volunteer.userId]) if user_info.get(volunteer.userId) else "Unknown User",
             'signedUpAt': volunteer.signedUpAt.isoformat(),
             'isConfirmed': volunteer.isConfirmed,
             'confirmedAt': volunteer.confirmedAt.isoformat() if volunteer.confirmedAt else None,
