@@ -5,6 +5,7 @@ from database.post import Post
 from database.volunteer import Volunteer
 from sqlalchemy import func
 from auth import requires_auth
+from auth0Mgmt import get_user_info_with_userids, get_name
 
 bp = Blueprint('posts', __name__)
 
@@ -13,12 +14,17 @@ bp = Blueprint('posts', __name__)
 def get_posts():
     posts = Post.query.all()
     posts_data = []
+
+    user_ids = [post.userId for post in posts]
+    user_info = get_user_info_with_userids(user_ids)
+    user_info = {user['user_id']: user for user in user_info}
+
     for post in posts:
         post_data = {
             'id': post.id,
             'company': {
                 "userId": post.userId,
-                "name": "Company Name",
+                "name": get_name(user_info[post.userId]) if user_info.get(post.userId) else "Unknown User",
                 "logo": "",
             },
             'eventDateStart': post.eventDateStart.isoformat(),
