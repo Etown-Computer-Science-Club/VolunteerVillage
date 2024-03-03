@@ -57,14 +57,15 @@ export default function Navbar() {
 						<Avatar size="sm" src={user.picture} name={user.name} />
 					</MenuButton>
 					<MenuList>
-						<Center>
-							<Avatar size="lg" src={user.picture} name={user.name} />
-						</Center>
-						<Text fontSize="15px" textAlign="center"> {user.name}</Text>
-						<Text fontSize="15px" textAlign="center"> {user.email}</Text>
-						<Center pt="5px">
-								<Logout />
-						</Center>
+            <Flex direction="column" gap={2}>
+              <Center>
+                <Avatar size="lg" src={user.picture} name={user.name} />
+              </Center>
+              <Text fontSize="15px" textAlign="center"> {user.email}</Text>
+              <Center pt="5px">
+                  <Logout />
+              </Center>
+            </Flex>
 					</MenuList>
 				</Menu>
 			)}
