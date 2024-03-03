@@ -1,5 +1,6 @@
-from flask import jsonify
-from blueprints import badges_bp as bp
+from flask import jsonify, Blueprint
+
+bp = Blueprint('badges', __name__)
 
 
 @bp.route('/badges', methods=['GET'])

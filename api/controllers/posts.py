@@ -1,12 +1,29 @@
 from flask import Blueprint, jsonify, request
 from database.db import db
 from database.post import Post
-from blueprints import posts_bp as bp
+
+bp = Blueprint('posts', __name__)
 
 
 @bp.route('/posts', methods=['GET'])
 def get_posts():
-    return jsonify({"message": "Returning all posts"}), 200
+    posts = Post.query.all()
+    posts_data = []
+    for post in posts:
+        post_data = {
+            'id': post.id,
+            'userId': post.userId,
+            'eventDate': post.eventDate.isoformat(),
+            'title': post.title,
+            'description': post.description,
+            'street': post.street,
+            'city': post.city,
+            'state': post.state,
+            'zip': post.zip,
+        }
+        posts_data.append(post_data)
+
+    return jsonify(posts_data), 200
 
 
 @bp.route('/posts', methods=['POST'])
