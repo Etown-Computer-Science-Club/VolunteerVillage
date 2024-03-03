@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Box, Table, Text, Thead, Tbody, Tr, Th, Td, Center } from "@chakra-ui/react";
 import {
   Chart as ChartJS,
@@ -9,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import leaderboardData from '../leaderboard.json';
+import LeaderboardService from '../services/leaderboardService';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +22,17 @@ ChartJS.register(
 );
 
 export default function Leaderboard() {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const data = await LeaderboardService.getTop10();
+      setLeaderboardData(data);
+    };
+
+    fetchLeaderboard();
+  }, []);
+
   const options = {
     indexAxis: 'y',
     elements: {

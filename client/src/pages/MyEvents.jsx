@@ -28,10 +28,12 @@ export default function MyEvents() {
 
   useEffect(() => {
     const fetchAttendees = async () => {
+      if (selectedItemIndex === null) {
+        return;
+      }
       const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
       setAttendees(data);
     };
-
     fetchAttendees();
   }, [selectedItemIndex]);
 
