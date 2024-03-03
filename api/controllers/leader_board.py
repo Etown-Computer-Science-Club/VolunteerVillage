@@ -21,7 +21,8 @@ def get_leaderboard():
         volunteer_data = {
             'rank': rank,
             'userId': volunteer.userId,
-            'confirmedCount': volunteer.confirmedCount,
+            'volunteerCount': volunteer.confirmedCount,
+            'name': "empty",
         }
         leaderboard_data.append(volunteer_data)
 
