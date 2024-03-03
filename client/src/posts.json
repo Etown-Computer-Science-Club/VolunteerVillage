@@ -21,7 +21,8 @@
 			"name": "Hi!!",
 			"logo": "2"
 		},
-		"eventDate": "3/3/2024",
+		"eventDateStart": "3/3/2024",
+		"eventDateEnd": "3/3/2024",
 		"title": "Hen Hack",
 		"description": "Hello World! 3/3",
 		"address": {

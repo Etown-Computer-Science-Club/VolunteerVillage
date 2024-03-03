@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table, Thead, Tbody, Tr, Th, Td, TableContainer,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -6,14 +6,24 @@ import {
   Button,
   Center
 } from '@chakra-ui/react';
-import postsData from '../posts.json';
 import { useAuth0 } from "@auth0/auth0-react";
+import PostService from '../services/postService';
 
 export default function Events() {
   const { user, isAuthenticated } = useAuth0();
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [postsData, setPostsData] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const data = await PostService.getEvents();
+      setPostsData(data);
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleItemClick = (index) => {
     setSelectedItemIndex(index);
@@ -31,8 +41,9 @@ export default function Events() {
           <Thead bg="blue.900">
             <Tr>
               <Th textAlign="center">Company</Th>
-              <Th textAlign="center">Event Date</Th>
-              <Th textAlign="center">Event Title</Th>
+              <Th textAlign="center">Start Date</Th>
+              <Th textAlign="center">End Date</Th>
+              <Th textAlign="center">Title</Th>
               <Th textAlign="center">City</Th>
               <Th textAlign="center">State</Th>
             </Tr>
@@ -42,7 +53,8 @@ export default function Events() {
           {postsData.map((user, index) => (
               <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                 <Td textAlign="center">{user.company.name}</Td>
-                <Td textAlign="center">{user.eventDate}</Td>
+                <Td textAlign="center">{user.eventDateStart}</Td>
+                <Td textAlign="center">{user.eventDateEnd}</Td>
                 <Td textAlign="center">{user.title}</Td>
                 <Td textAlign="center">{user.address.city}</Td>
                 <Td textAlign="center">{user.address.state}</Td>
