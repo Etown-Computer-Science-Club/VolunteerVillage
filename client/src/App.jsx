@@ -32,7 +32,7 @@ export default function App() {
   if (isLoading) {
     return (
       <Center height="100vh">
-        <Spinner size={"2xl"}/>
+        <Spinner size={"xl"}/>
       </Center>
     );
   }
