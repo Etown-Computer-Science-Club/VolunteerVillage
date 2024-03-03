@@ -81,10 +81,10 @@ export default function Create() {
                         <FormLabel>Description</FormLabel>
                         <Input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
                     </FormControl>
-                    <FormControl id="image">
+                    {/* <FormControl id="image">
                         <FormLabel>Image</FormLabel>
                         <Input type="file" />
-                    </FormControl>
+                    </FormControl> */}
                     <FormControl id="street">
                         <FormLabel>Street</FormLabel>
                         <Input type="text" value={street} onChange={(e) => setStreet(e.target.value)} />

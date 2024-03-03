@@ -28,7 +28,7 @@ const Profile = () => {
 
 		toast({
 			title: "Profile updated.",
-			description: "We've updated your profile details.",
+			description: "Your profile will reflect these changes in the next 15 minutes.",
 			status: "success",
 			duration: 5000,
 			isClosable: true,
