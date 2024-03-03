@@ -29,6 +29,19 @@ def requires_auth(f):
     return decorated
 
 
+def optional_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        try:
+            token = get_token_auth_header()
+            payload = verify_decode_jwt(token)
+            g.user = payload  # Attach the payload to Flask's global object
+        except AuthError as e:
+            g.user = None
+        return f(*args, **kwargs)
+    return decorated
+
+
 def get_token_auth_header():
     """Obtains the access token from the Authorization Header"""
     auth = request.headers.get("Authorization", None)

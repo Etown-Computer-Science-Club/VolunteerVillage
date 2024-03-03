@@ -219,7 +219,7 @@ export default function Events() {
 								isDisabled={isAuthenticated}
 							>
 								{selectedItemIndex !== null &&
-									!postsData[selectedItemIndex].userIsVolunteer && (
+									!postsData[selectedItemIndex].userIsVolunteer ? (
 										<Button
 											colorScheme="blue"
 											isLoading={buttonLoading}
@@ -228,7 +228,7 @@ export default function Events() {
 										>
 											Sign Up
 										</Button>
-									)}
+									) : <></>}
 							</Tooltip>
 						</ModalFooter>
 					</ModalContent>

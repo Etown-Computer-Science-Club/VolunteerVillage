@@ -4,16 +4,23 @@ from database.db import db
 from database.post import Post
 from database.volunteer import Volunteer
 from sqlalchemy import func
-from auth import requires_auth
+from auth import requires_auth, optional_auth
 from auth0Mgmt import get_user_info_with_userids, get_name
 
 bp = Blueprint('posts', __name__)
 
 
 @bp.route('/posts', methods=['GET'])
+@optional_auth
 def get_posts():
     posts = Post.query.all()
     posts_data = []
+
+    userPostIds = []
+    if g.user:
+        userPostData = Volunteer.query.filter_by(
+            userId=g.user.get('sub')).all()
+        userPostIds = [post.postId for post in userPostData]
 
     user_ids = [post.userId for post in posts]
     user_info = get_user_info_with_userids(user_ids)
@@ -37,7 +44,7 @@ def get_posts():
                 'state': post.state,
                 'zip': post.zip,
             },
-            'userIsVolunteer': False,
+            'userIsVolunteer': post.id in userPostIds,
         }
         posts_data.append(post_data)
 
