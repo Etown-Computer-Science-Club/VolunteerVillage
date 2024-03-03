@@ -1,6 +1,10 @@
-import {Flex, Image, Spacer, Text, useMediaQuery } from '@chakra-ui/react';
+import {Button, Flex, HStack, Image, Spacer, Text, useMediaQuery } from '@chakra-ui/react';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Home() {
+	const { user, isAuthenticated } = useAuth0();
   const [isLargeScreen] = useMediaQuery("(min-width: 1200px)");
 
   return (
@@ -15,6 +19,17 @@ export default function Home() {
           Get assistance from community members in running your event. 
           Create an account now to get connected with the larger community.
         </Text>
+        {isAuthenticated ? (
+          <Button colorScheme="teal" size="lg" mt="10" onClick={() => window.location.href = "/events"}>Sign up Now!</Button>
+        ) : (
+          <HStack mt="10">
+            <Login color={"teal"}/>
+            <Signup color={"teal"}/>
+          </HStack>
+        )
+        }
+        
+        
       </Flex>
       <Spacer />
       {isLargeScreen && <Image src="righthome.png" h="80vh" style={{ opacity: 0.75 }}/>}
