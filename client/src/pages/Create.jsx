@@ -1,6 +1,9 @@
-import { Box, Button, Center, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Center, FormControl, FormLabel, Input, Select, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import PostService from "../services/postService";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
     const [eventDateStart, setEventDateStart] = useState("");
@@ -11,6 +14,11 @@ export default function Create() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zip, setZip] = useState("");
+    const [isConfettiActive, setIsConfettiActive] = useState(false);
+	const [width, height] = useWindowSize();
+	const [buttonLoading, setButtonLoading] = useState(false);
+    const navigate = useNavigate();
+    const toast = useToast();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -24,7 +32,33 @@ export default function Create() {
             state,
             zip
         };
-        await PostService.createEvent(event);
+        setButtonLoading(true);
+        try{
+            await PostService.createEvent(event);
+            setIsConfettiActive(true);
+            toast({
+                title: "Success",
+                description: "Created a new event!",
+                status: "info",
+                duration: 3000,
+                isClosable: true,
+              });
+			setTimeout(() => {
+				setIsConfettiActive(false);
+                navigate("/")
+			}, 3000);
+            
+        }catch (error) {
+            toast({
+                title: "Error",
+                description: "Failed to create event.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+              });
+        } finally {
+            setButtonLoading(false);
+        }
     };
 
     return (
@@ -119,12 +153,13 @@ export default function Create() {
                         <Input type="text" value={zip} onChange={(e) => setZip(e.target.value)} />
                     </FormControl>
                     <Center>
-                        <Button mt={4} onClick={handleSubmit} colorScheme="teal" type="submit">
+                        <Button mt={4} onClick={handleSubmit} isLoading={buttonLoading} colorScheme="teal" type="submit">
                             Submit
                         </Button>
                     </Center>
                 </form>
             </Box>
+            {isConfettiActive && <Confetti recycle={false} width={width} height={height} />}
         </Center>
     );
 }

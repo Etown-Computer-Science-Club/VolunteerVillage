@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Table, Text, Thead, Tbody, Tr, Th, Td, Center } from "@chakra-ui/react";
+import { Box, Table, Text, Thead, Tbody, Tr, Th, Td, Center, useToast } from "@chakra-ui/react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,11 +23,22 @@ ChartJS.register(
 
 export default function Leaderboard() {
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const toast = useToast();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      const data = await LeaderboardService.getTop10();
-      setLeaderboardData(data);
+      try {
+        const data = await LeaderboardService.getTop10();
+        setLeaderboardData(data);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch leaderboard data.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     };
 
     fetchLeaderboard();

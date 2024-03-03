@@ -21,6 +21,7 @@ import {
 	Text,
 	Divider,
 	Tooltip,
+	useToast,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from "../services/postService";
@@ -38,7 +39,7 @@ const TIMEFORMAT="h:m a"
 
 export default function Events() {
 	const { user, isAuthenticated } = useAuth0();
-
+	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 	const [postsData, setPostsData] = useState([]);
@@ -48,12 +49,22 @@ export default function Events() {
 
 	useEffect(() => {
 		const fetchPosts = async () => {
+		  try {
 			const data = await PostService.getEvents();
 			setPostsData(data);
+		  } catch (error) {
+			toast({
+			  title: "Error",
+			  description: "Failed to fetch events.",
+			  status: "error",
+			  duration: 5000,
+			  isClosable: true,
+			});
+		  }
 		};
-
+	  
 		fetchPosts();
-	}, []);
+	  }, []);
 
 	const handleItemClick = (index) => {
 		setSelectedItemIndex(index);
@@ -63,17 +74,30 @@ export default function Events() {
 	const handleSignUp = async () => {
 		setButtonLoading(true);
 		try {
-			await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
-			setIsConfettiActive(true);
-			setTimeout(() => {
-				setIsConfettiActive(false);
-			}, 3000);
+		  await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
+		  setIsConfettiActive(true);
+		  toast({
+			title: "Success",
+			description: "Signed up for a new event!",
+			status: "info",
+			duration: 3000,
+			isClosable: true,
+		  });
+		  setTimeout(() => {
+			setIsConfettiActive(false);
+		  }, 3000);
 		} catch (error) {
-			console.error(error);
+		  toast({
+			title: "Error",
+			description: "Failed to sign up, you might already be signed up.",
+			status: "error",
+			duration: 5000,
+			isClosable: true,
+		  });
 		} finally {
-      setButtonLoading(false);
-    }
-	};
+		  setButtonLoading(false);
+		}
+	  };
 
 	return (
 		<Center>
