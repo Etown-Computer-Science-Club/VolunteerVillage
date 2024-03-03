@@ -25,7 +25,7 @@ def get_volunteers(postId):
     return jsonify(volunteers_data), 200
 
 
-@bp.route('/volunteers/<int:postId>/<string:userId>', methods=['GET'])
+@bp.route('/volunteers/<int:postId>/<string:userId>', methods=['POST'])
 def add_volunteer(postId, userId):
     volunteer = Volunteer.query.filter_by(
         postId=postId, userId=userId).first()
