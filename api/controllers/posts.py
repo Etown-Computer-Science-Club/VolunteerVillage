@@ -1,8 +1,10 @@
+from flask import jsonify
 from flask import Blueprint, jsonify, request
 from database.db import db
 from database.post import Post
 from database.volunteer import Volunteer
 from sqlalchemy import func
+from auth import requires_auth
 
 bp = Blueprint('posts', __name__)
 
@@ -36,6 +38,7 @@ def get_posts():
     return jsonify(posts_data), 200
 
 
+@requires_auth
 @bp.route('/posts', methods=['POST'])
 def create_post():
     data = request.get_json()
@@ -49,15 +52,14 @@ def create_post():
     return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
 
 
-
-from flask import jsonify
-
+@requires_auth
 @bp.route('/posts/<int:postId>', methods=['DELETE'])
 def delete_post(postId):
     post = Post.query.get_or_404(postId)  # Assumes you have a 'Post' model
 
     # Count confirmed volunteers associated with the post
-    confirmed_count = Volunteer.query.filter_by(postId=postId, isConfirmed=True).count()
+    confirmed_count = Volunteer.query.filter_by(
+        postId=postId, isConfirmed=True).count()
 
     if confirmed_count > 0:
         return jsonify({'message': 'Cannot delete post with confirmed volunteers'}), 400

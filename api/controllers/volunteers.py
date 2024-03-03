@@ -2,10 +2,12 @@ from flask import Blueprint, jsonify, request
 from database.db import db
 from database.volunteer import Volunteer
 from datetime import datetime
+from auth import requires_auth
 
 bp = Blueprint('volunteers', __name__)
 
 
+@requires_auth
 @bp.route('/volunteers/<int:postId>', methods=['GET'])
 def get_volunteers(postId):
     volunteers = Volunteer.query.filter_by(postId=postId).all()
@@ -25,6 +27,7 @@ def get_volunteers(postId):
     return jsonify(volunteers_data), 200
 
 
+@requires_auth
 @bp.route('/volunteers/<int:postId>', methods=['POST'])
 def add_volunteer(postId):
     userId = "1"
@@ -51,6 +54,7 @@ def add_volunteer(postId):
     return jsonify(volunteer_data), 200
 
 
+@requires_auth
 @bp.route('/volunteers/<int:postId>/<string:userId>/confirm', methods=['POST'])
 def confirm_volunteer(postId, userId):
     volunteer = Volunteer.query.filter_by(
@@ -75,6 +79,7 @@ def confirm_volunteer(postId, userId):
     return jsonify(volunteer_data), 200
 
 
+@requires_auth
 @bp.route('/volunteers/<int:postId>/<string:userId>', methods=['DELETE'])
 def delete_volunteer(postId, userId):
     volunteer = Volunteer.query.filter_by(
