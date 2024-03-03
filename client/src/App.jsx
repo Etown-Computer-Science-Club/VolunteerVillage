@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route} from "react-router-dom";
-import { Flex } from '@chakra-ui/react';
+import { Flex, Center, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 
 // Components
@@ -30,7 +30,11 @@ export default function App() {
   }, [isAuthLoading, setInterceptors])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <Center height="100vh">
+        <Spinner size={"2xl"}/>
+      </Center>
+    );
   }
 
   return (
