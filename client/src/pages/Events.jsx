@@ -16,6 +16,7 @@ import VolunteerService from '../services/volunteerService';
 import { CalendarIcon, TimeIcon, ChevronDownIcon, AtSignIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
 import { MdLocationOn, MdExpandMore } from 'react-icons/md';
+import Confetti from "react-confetti";
 
 
 export default function Events() {
@@ -24,6 +25,8 @@ export default function Events() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [postsData, setPostsData] = useState([]);
+  const [isConfettiActive, setIsConfettiActive] = useState(false);
+  const [width, height] = useWindowSize();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -41,6 +44,12 @@ export default function Events() {
   
   const handleSignUp = async() => {
     await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
+    setIsConfettiActive(true);
+			setTimeout(() => {
+				setIsConfettiActive(false);
+			}, 30000);
+
+
   }
 
   return (
@@ -130,6 +139,7 @@ export default function Events() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {isConfettiActive && <Confetti recycle={false} width={width} height={height} />}
     </Center>
   )
 }
