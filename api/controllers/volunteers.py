@@ -73,3 +73,17 @@ def confirm_volunteer(postId, userId):
     }
 
     return jsonify(volunteer_data), 200
+
+
+@bp.route('/volunteers/<int:postId>/<string:userId>', methods=['DELETE'])
+def delete_volunteer(postId, userId):
+    volunteer = Volunteer.query.filter_by(
+        postId=postId, userId=(userId)).first()
+
+    if not volunteer:
+        return jsonify({'message': 'Volunteer not found'}), 404
+
+    db.session.delete(volunteer)
+    db.session.commit()
+
+    return jsonify({'message': 'Volunteer deleted successfully'}), 200
