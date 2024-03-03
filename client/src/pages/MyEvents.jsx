@@ -66,14 +66,19 @@ export default function MyEvents() {
           </Thead>
 
           <Tbody>
-          {postsData.map((user, index) => (
-              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                <Td textAlign="center">{user.eventDateEnd}</Td>
-                <Td textAlign="center">{user.title}</Td>
-                <Td textAlign="center">{user.address.city}</Td>
-                <Td textAlign="center">{user.address.state}</Td>
-              </Tr>
-            ))}
+            {postsData.map((user, index) => {
+              if (!user.isConfirmed) {
+                return (
+                  <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                    <Td textAlign="center">{user.eventDateEnd}</Td>
+                    <Td textAlign="center">{user.title}</Td>
+                    <Td textAlign="center">{user.address.city}</Td>
+                    <Td textAlign="center">{user.address.state}</Td>
+                  </Tr>
+                );
+              }
+              return null;
+            })}
           </Tbody>
         </Table>
       </TableContainer>
