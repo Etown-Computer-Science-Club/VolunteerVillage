@@ -9,4 +9,9 @@ export default class VolunteerService {
         console.log(data)
 		return (data)
 	}
+    static async confirmAttendee (postID, userID) {
+		const { data } = await axios.get(API_URL + postID + "/" + userID + "/confirm")
+        console.log(data)
+		return (data)
+	}
 }

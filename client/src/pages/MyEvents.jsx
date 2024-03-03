@@ -19,7 +19,7 @@ export default function MyEvents() {
   
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await PostService.getMyEvents();
+      const data = await PostService.getEvents();
       setPostsData(data);
     };
 
@@ -45,10 +45,10 @@ export default function MyEvents() {
   const handleDelete = () => {
     console.log('Deleting event');
   }
-  const handleConfirm = () => {
-    console.log('Confirming attendance');
+  const handleConfirm = async(index) => {
+    await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].id);
   }
-  const handleDeleteAttendee = () => {
+  const handleDeleteAttendee = (index) => {
     console.log('Deleting attendee');
   }
 
@@ -66,19 +66,14 @@ export default function MyEvents() {
           </Thead>
 
           <Tbody>
-            {postsData.map((user, index) => {
-              if (!user.isConfirmed) {
-                return (
-                  <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                    <Td textAlign="center">{user.eventDateEnd}</Td>
-                    <Td textAlign="center">{user.title}</Td>
-                    <Td textAlign="center">{user.address.city}</Td>
-                    <Td textAlign="center">{user.address.state}</Td>
-                  </Tr>
-                );
-              }
-              return null;
-            })}
+          {postsData.map((user, index) => (
+              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                <Td textAlign="center">{user.eventDateEnd}</Td>
+                <Td textAlign="center">{user.title}</Td>
+                <Td textAlign="center">{user.address.city}</Td>
+                <Td textAlign="center">{user.address.state}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
@@ -99,13 +94,18 @@ export default function MyEvents() {
               </Thead>
 
               <Tbody>
-              {attendees.map((user, index) => (
-                  <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                    <Td textAlign="center">{user.name}</Td>
-                    <Td textAlign="center"><Button colorScheme="green" onClick={handleConfirm}>Confirm</Button></Td>
-                    <Td textAlign="center"><Button colorScheme='red' onClick={handleDeleteAttendee}>Delete</Button></Td>
-                  </Tr>
-                ))}
+                {attendees.map((user, index) => {
+                  if(user.isConfirmed) {
+                    return null;
+                  }
+                  return (
+                    <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+                      <Td textAlign="center">{user.name}</Td>
+                      <Td textAlign="center"><Button colorScheme="green" onClick={handleConfirm(index)}>Confirm</Button></Td>
+                      <Td textAlign="center"><Button colorScheme='red' onClick={handleDeleteAttendee(index)}>Delete</Button></Td>
+                    </Tr>
+                  );
+                })}
               </Tbody>
             </Table>
           </TableContainer>
