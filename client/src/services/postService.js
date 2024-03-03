@@ -6,12 +6,10 @@ const API_URL = process.env.NODE_ENV === 'production'
 export default class PostService {
 	static async getEvents() {
 		const { data } = await axios.get(API_URL)
-        console.log(data)
 		return (data)
 	}
     static async getMyEvents() {
 		const { data } = await axios.get(API_URL)
-        console.log(data)
 		return (data)
 	}
 }
