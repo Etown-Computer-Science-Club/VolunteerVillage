@@ -2,7 +2,8 @@ import { Box, Button, Center, FormControl, FormLabel, Input, Select } from "@cha
 import { useState } from "react";
 
 export default function Create() {
-    const [eventDate, setEventDate] = useState("");
+    const [eventDateStart, setEventDateStart] = useState("");
+    const [eventDateEnd, setEventDateEnd] = useState("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [street, setStreet] = useState("");
@@ -13,7 +14,8 @@ export default function Create() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const event = {
-            eventDate,
+            eventDateStart,
+            eventDateEnd,
             title,
             description,
             address: {
@@ -24,15 +26,20 @@ export default function Create() {
             }
         };
         console.log(event);
+        console.log(JSON.stringify(event))
     };
 
     return (
         <Center>
             <Box w="50vw">
                 <form onSubmit={handleSubmit}>
-                    <FormControl id="eventDate">
-                        <FormLabel>Event Date</FormLabel>
-                        <Input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+                    <FormControl id="eventDateStart">
+                        <FormLabel>Event Start Date</FormLabel>
+                        <Input type="datetime-local" value={eventDateStart} onChange={(e) => setEventDateStart(e.target.value)} />
+                    </FormControl>
+                    <FormControl id="eventDateEnd">
+                        <FormLabel>Event End Date</FormLabel>
+                        <Input type="datetime-local" value={eventDateEnd} onChange={(e) => setEventDateEnd(e.target.value)} />
                     </FormControl>
                     <FormControl id="title">
                         <FormLabel>Title</FormLabel>
@@ -114,7 +121,7 @@ export default function Create() {
                         <Input type="text" value={zip} onChange={(e) => setZip(e.target.value)} />
                     </FormControl>
                     <Center>
-                        <Button mt={4} colorScheme="teal" type="submit">
+                        <Button mt={4} onClick={handleSubmit} colorScheme="teal" type="submit">
                             Submit
                         </Button>
                     </Center>
