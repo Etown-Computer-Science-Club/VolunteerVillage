@@ -35,6 +35,6 @@ The accomplishments that we are the most proud of is the overall quality of our 
 
 We learned a lot at this hackathon. Each individually and as a team. The team built up our teamwork skills through constant communication. By making sure that the front end developers and the backend developers helped each other through temporary data structures, or constantly communicating with each other when something went wrong. Individually we all grew our coding skills through constant debugging and collaboration between team mates.
 
-# Next Steps
+## Next Steps
 
 The next steps for Volunteer Village is to be iterated upon. We want to add in badges that users can earn based on the number of times they volunteer for an event. We also want to continue iterating on our original design, ensuring that errors are fully handled and we want to make the user experience even more easy to learn. We also thought that we could add in a chat feature where users can create group chats on the site to discuss upcoming volunteer opportunities and shared interests.
