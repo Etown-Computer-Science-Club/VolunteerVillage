@@ -47,15 +47,27 @@ def get_posts():
 @bp.route('/posts', methods=['POST'])
 @requires_auth
 def create_post():
+    user_id = g.user.get('sub')
+
     data = request.get_json()
     title = data.get('title')
-    content = data.get('content')
+    description = data.get('content')
+    eventDateStart = data.get('eventDateStart')
+    eventDateEnd = data.get('eventDateEnd')
+    street = data.get('street')
+    city = data.get('city')
+    state = data.get('state')
+    zip = data.get('zip')
 
-    new_post = Post(title=title, content=content)
+    new_post = Post(title=title, description=description,
+                    eventDateStart=eventDateStart, eventDateEnd=eventDateEnd,
+                    street=street, city=city, state=state, zip=zip, userId=user_id)
     db.session.add(new_post)
     db.session.commit()
 
-    return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
+    return jsonify({
+        "id": new_post.id,
+    }), 201
 
 
 @bp.route('/posts/me', methods=['GET'])
