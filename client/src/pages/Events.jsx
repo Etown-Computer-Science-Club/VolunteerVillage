@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from '../services/postService';
+import VolunteerService from '../services/volunteerService';
 
 export default function Events() {
   const { user, isAuthenticated } = useAuth0();
@@ -30,8 +31,9 @@ export default function Events() {
     onOpen();
   }
   
-  const handleSignUp = () => {
-    console.log('Signing up for event');
+  const handleSignUp = async() => {
+    console.log(user.sub)
+    await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
   }
 
   return (
