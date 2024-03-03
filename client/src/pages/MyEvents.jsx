@@ -25,7 +25,7 @@ export default function MyEvents() {
   
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await PostService.getEvents();
+      const data = await PostService.getMyEvents();
       setPostsData(data);
     };
 

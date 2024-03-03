@@ -81,7 +81,7 @@ export default function Events() {
 				<Table variant="simple" colorScheme="teal">
 					<Thead bg="blue.900">
 						<Tr>
-							<Th textAlign="center">Company</Th>
+							<Th textAlign="center">Host</Th>
 							<Th textAlign="center">Start Date</Th>
 							<Th textAlign="center">End Date</Th>
 							<Th textAlign="center">Title</Th>
@@ -186,7 +186,7 @@ export default function Events() {
 							</Box>
 						</ModalBody>
 						<ModalFooter>
-							<Button colorScheme="blue" mr={3} onClick={onClose}>
+							<Button colorScheme="gray" mr={3} onClick={onClose}>
 								Close
 							</Button>
 							<Tooltip
@@ -197,7 +197,7 @@ export default function Events() {
 								{selectedItemIndex !== null &&
 									!postsData[selectedItemIndex].userIsVolunteer && (
 										<Button
-											colorScheme="green"
+											colorScheme="blue"
 											isLoading={buttonLoading}
 											isDisabled={!isAuthenticated}
 											onClick={handleSignUp}
