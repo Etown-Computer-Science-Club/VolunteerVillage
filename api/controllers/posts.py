@@ -44,8 +44,8 @@ def get_posts():
     return jsonify(posts_data), 200
 
 
-@requires_auth
 @bp.route('/posts', methods=['POST'])
+@requires_auth
 def create_post():
     data = request.get_json()
     title = data.get('title')
@@ -58,8 +58,8 @@ def create_post():
     return jsonify({"id": new_post.id, "title": new_post.title, "content": new_post.content}), 201
 
 
-@requires_auth
 @bp.route('/posts/<int:postId>', methods=['DELETE'])
+@requires_auth
 def delete_post(postId):
     post = Post.query.get_or_404(postId)  # Assumes you have a 'Post' model
 

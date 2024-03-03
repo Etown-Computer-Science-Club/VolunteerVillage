@@ -62,12 +62,12 @@ export default function Events() {
 			setIsConfettiActive(true);
 			setTimeout(() => {
 				setIsConfettiActive(false);
-				setButtonLoading(false);
 			}, 3000);
 		} catch (error) {
 			console.error(error);
-			setButtonLoading(false);
-		}
+		} finally {
+      setButtonLoading(false);
+    }
 	};
 
 	return (
@@ -115,7 +115,7 @@ export default function Events() {
 					<ModalContent>
 						<ModalHeader style={{ textAlign: "center", fontSize: "24px" }}>
 							<Text fontSize="2xl">{postsData[selectedItemIndex].title}</Text>
-							<Text fontSize="md">By: {postsData[selectedItemIndex].name}</Text>
+							<Text fontSize="md">By: {postsData[selectedItemIndex].company?.name}</Text>
 						</ModalHeader>
 						<ModalCloseButton />
 						<ModalBody style={{ textAlign: "center" }}>

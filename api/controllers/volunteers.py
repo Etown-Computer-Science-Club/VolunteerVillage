@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 from database.db import db
 from database.volunteer import Volunteer
 from datetime import datetime
@@ -7,8 +7,8 @@ from auth import requires_auth
 bp = Blueprint('volunteers', __name__)
 
 
-@requires_auth
 @bp.route('/volunteers/<int:postId>', methods=['GET'])
+@requires_auth
 def get_volunteers(postId):
     volunteers = Volunteer.query.filter_by(postId=postId).all()
 
@@ -27,10 +27,10 @@ def get_volunteers(postId):
     return jsonify(volunteers_data), 200
 
 
-@requires_auth
 @bp.route('/volunteers/<int:postId>', methods=['POST'])
+@requires_auth
 def add_volunteer(postId):
-    userId = "1"
+    userId = g.user.get('sub')
     volunteer = Volunteer.query.filter_by(
         postId=postId, userId=userId).first()
 
@@ -54,8 +54,8 @@ def add_volunteer(postId):
     return jsonify(volunteer_data), 200
 
 
-@requires_auth
 @bp.route('/volunteers/<int:postId>/<string:userId>/confirm', methods=['POST'])
+@requires_auth
 def confirm_volunteer(postId, userId):
     volunteer = Volunteer.query.filter_by(
         postId=postId, userId=(userId)).first()
@@ -79,8 +79,8 @@ def confirm_volunteer(postId, userId):
     return jsonify(volunteer_data), 200
 
 
-@requires_auth
 @bp.route('/volunteers/<int:postId>/<string:userId>', methods=['DELETE'])
+@requires_auth
 def delete_volunteer(postId, userId):
     volunteer = Volunteer.query.filter_by(
         postId=postId, userId=(userId)).first()
