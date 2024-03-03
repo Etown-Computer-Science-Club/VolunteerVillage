@@ -32,7 +32,6 @@ export default function Events() {
   }
   
   const handleSignUp = async() => {
-    console.log(user.sub)
     await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
   }
 
@@ -77,7 +76,7 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            {isAuthenticated && <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
+            {(isAuthenticated && !postsData[selectedItemIndex].userIsVolunteer)&& <Button colorScheme='green' onClick={handleSignUp}>Sign Up</Button>}
           </ModalFooter>
         </ModalContent>
       </Modal>
