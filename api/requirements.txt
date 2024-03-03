@@ -3,3 +3,5 @@ flask_sqlalchemy
 python-dotenv
 PyMySQL
 flask_cors
+auth0-python
+python-jose
