@@ -19,8 +19,8 @@ class AuthError(Exception):
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = get_token_auth_header()
         try:
+            token = get_token_auth_header()
             payload = verify_decode_jwt(token)
             g.user = payload  # Attach the payload to Flask's global object
         except AuthError as e:

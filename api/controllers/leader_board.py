@@ -2,13 +2,11 @@ from flask import Flask, Blueprint, jsonify
 from database.db import db
 from database.volunteer import Volunteer
 from sqlalchemy import func
-from auth import requires_auth
 
 bp = Blueprint('leader_board', __name__)
 
 
 @bp.route('/leaderboard', methods=['GET'])  # Update the route
-@requires_auth
 def get_leaderboard():
     confirmed_volunteers = db.session.query(
         Volunteer.userId,
