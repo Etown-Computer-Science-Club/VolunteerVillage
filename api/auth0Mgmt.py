@@ -50,7 +50,7 @@ def get_user_info_with_userids(userids):
 
     user_id_queries = ' OR '.join(
         [f'user_id:"{userid}"' for userid in userids])
-    query = f"q={user_id_queries}&fields=user_id,name,email,username,nickname&include_fields=true&search_engine=v3"
+    query = f"q={user_id_queries}&fields=user_id,name,email,username,nickname,picture&include_fields=true&search_engine=v3"
     url = f"https://{AUTH0_DOMAIN}/api/v2/users?{query}"
 
     headers = {

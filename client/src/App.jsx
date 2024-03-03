@@ -16,6 +16,7 @@ import MyEvents from './pages/MyEvents';
 import useInterceptor from './shared/hooks/useInterceptor';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import Profile from './pages/Profile';
 
 export default function App() {
   const [ isLoading, setIsLoading ] = useState(true);
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/leaderboard" element={<Leaderboard/>} />
           <Route path="/create" element={<Create/>} />
           <Route path="/myevents" element={<MyEvents/>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Flex>
       <Footer />
