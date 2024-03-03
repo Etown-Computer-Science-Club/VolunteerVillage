@@ -12,4 +12,8 @@ export default class VolunteerService {
 		const { data } = await axios.post(API_URL + postID + "/" + userID + "/confirm")
         return (data)
 	}
+    static async addVolunteer (postID) {
+		const { data } = await axios.post(API_URL + postID)
+        return (data)
+	}
 }
