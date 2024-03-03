@@ -57,13 +57,7 @@ def delete_post(postId):
     post = Post.query.get_or_404(postId)  # Assumes you have a 'Post' model
 
     # Count confirmed volunteers associated with the post
-    confirmed_count = Volunteer.query.filter_by(post_id=postId).count()
-    def get_confirmed_count(post_id):
-        confirmed_count = Volunteer.query.filter_by(postID=post_id, isConfirmed=True).count()
-
-        return jsonify({'confirmed_count': confirmed_count})
-
-    get_confirmed_count(postId)
+    confirmed_count = Volunteer.query.filter_by(postID=post_id, isConfirmed=True).count()
 
     if confirmed_count > 0:
         return jsonify({'message': 'Cannot delete post with confirmed volunteers'}), 400
@@ -76,5 +70,3 @@ def delete_post(postId):
     db.session.commit()
 
     return jsonify({'message': 'Post deleted successfully'}), 200
-
-
