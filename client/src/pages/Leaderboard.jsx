@@ -54,7 +54,7 @@ export default function Leaderboard() {
     
   };
   const data = {
-    labels: leaderboardData.map(user => user.userId),
+    labels: leaderboardData.map(user => user.name),
     datasets: [
       {
         label: 'Volunteer Count',
@@ -87,7 +87,7 @@ export default function Leaderboard() {
           <Tbody>
             {leaderboardData.map((user, index) => (
               <Tr key={index}>
-                <Td textAlign="center">{user.userId}</Td>
+                <Td textAlign="center">{user.name}</Td>
                 <Td textAlign="center">{user.volunteerCount}</Td>
               </Tr>
             ))}

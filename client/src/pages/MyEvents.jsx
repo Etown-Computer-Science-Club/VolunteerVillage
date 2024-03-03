@@ -57,8 +57,17 @@ export default function MyEvents() {
       console.error('Failed to confirm attendee:', error);
     }
   }
-  const handleDeleteAttendee = (index) => {
-    console.log('Deleting attendee');
+  const handleDeleteAttendee = async(index) => {
+    try {
+      await VolunteerService.deleteAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+      setAttendees(prevAttendees => {
+        const newAttendees = [...prevAttendees];
+        newAttendees.splice(index, 1);
+        return newAttendees;
+      });
+    } catch (error) {
+      console.error('Failed to delete attendee:', error);
+    }
   }
 
   return (
