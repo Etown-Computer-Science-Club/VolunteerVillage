@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BASE_URL from '.';
 
-const API_URL = BASE_URL + '/leaderboard';
+const API_URL = BASE_URL + '/posts';
 
 export default class PostService {
 	static async getEvents() {
