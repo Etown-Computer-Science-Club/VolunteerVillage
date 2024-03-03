@@ -2,9 +2,11 @@ import {Button, Flex, HStack, Image, Spacer, Text, useMediaQuery } from '@chakra
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
 	const { user, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
   const [isLargeScreen] = useMediaQuery("(min-width: 1200px)");
 
   return (
@@ -20,7 +22,7 @@ export default function Home() {
           Create an account now to get connected with the larger community.
         </Text>
         {isAuthenticated ? (
-          <Button colorScheme="teal" size="lg" mt="10" onClick={() => window.location.href = "/events"}>Sign up Now!</Button>
+          <Button colorScheme="teal" size="lg" mt="10" onClick={() => navigate("/events")}>Sign up Now!</Button>
         ) : (
           <HStack mt="10">
             <Login color={"teal"}/>
