@@ -5,3 +5,4 @@ PyMySQL
 flask_cors
 auth0-python
 python-jose
+firebase-admin
