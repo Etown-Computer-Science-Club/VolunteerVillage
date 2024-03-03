@@ -106,7 +106,7 @@ export default function MyEvents() {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={isOpen} onClose={handleClose}>
+      <Modal isOpen={isOpen} onClose={handleClose} size="3xl">
         <ModalOverlay />
         <ModalContent  >
           <ModalHeader>Attendees</ModalHeader>
