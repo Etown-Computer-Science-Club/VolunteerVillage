@@ -59,7 +59,7 @@ def delete_post(postId):
     # Count confirmed volunteers associated with the post
     confirmed_count = Volunteer.query.filter_by(post_id=postId).count()
     def get_confirmed_count(post_id):
-        confirmed_count = Volunteer.query.filter_by(post_id=post_id, is_confirmed=True).count()
+        confirmed_count = Volunteer.query.filter_by(postID=post_id, isConfirmed=True).count()
 
         return jsonify({'confirmed_count': confirmed_count})
 
