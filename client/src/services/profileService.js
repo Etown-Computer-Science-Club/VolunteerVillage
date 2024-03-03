@@ -1,7 +1,7 @@
 import axios from 'axios';
-const API_URL = process.env.NODE_ENV === 'production'
-	? 'https://api.wordwave.us/profile'
-	: 'http://localhost:8000/profile';
+import BASE_URL from '.';
+
+const API_URL = BASE_URL + '/profile';
 
 export default class ProfileService {
 	static async getProfile() {

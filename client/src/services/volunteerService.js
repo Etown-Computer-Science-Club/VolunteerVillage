@@ -1,23 +1,23 @@
 import axios from 'axios';
-const API_URL = process.env.NODE_ENV === 'production'
-	? 'https://api.wordwave.us/volunteers/'
-	: 'http://localhost:8000/volunteers/';
+import BASE_URL from '.';
+
+const API_URL = BASE_URL + '/volunteers';
 
 export default class VolunteerService {
-	static async getAttendees (postID) {
-		const { data } = await axios.get(API_URL+postID)
+	static async getAttendees(postID) {
+		const { data } = await axios.get(API_URL + postID)
 		return (data)
 	}
-    static async confirmAttendee (postID, userID) {
+	static async confirmAttendee(postID, userID) {
 		const { data } = await axios.post(API_URL + postID + "/" + userID + "/confirm")
-        return (data)
+		return (data)
 	}
-    static async deleteAttendee (postID, userID) {
+	static async deleteAttendee(postID, userID) {
 		const { data } = await axios.delete(API_URL + postID + "/" + userID)
-        return (data)
+		return (data)
 	}
-    static async addVolunteer (postID) {
+	static async addVolunteer(postID) {
 		const { data } = await axios.post(API_URL + postID)
-        return (data)
+		return (data)
 	}
 }

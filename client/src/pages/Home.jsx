@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
-	const { user, isAuthenticated } = useAuth0();
+	const { isAuthenticated } = useAuth0();
   const navigate = useNavigate();
   const [isLargeScreen] = useMediaQuery("(min-width: 1200px)");
 

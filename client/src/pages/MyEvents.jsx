@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
-import { format, compareAsc } from "date-fns";
+import { format } from "date-fns";
 
 const DTFORMAT="MMMM do h:mm a"
 
