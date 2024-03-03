@@ -28,7 +28,7 @@ const Profile = () => {
 
 		toast({
 			title: "Profile updated.",
-			description: "We've updated your profile details.",
+			description: "Your profile will reflect these changes in the next 15 minutes.",
 			status: "success",
 			duration: 5000,
 			isClosable: true,
@@ -36,7 +36,7 @@ const Profile = () => {
 	};
 
 	return (
-		<VStack as="form" onSubmit={handleSubmit} spacing={4} align="flex-start">
+		<VStack as="form" onSubmit={handleSubmit} spacing={5} align="flex-start">
 			<Center>
 				<Box w="100%">
 					<FormControl>
@@ -53,10 +53,11 @@ const Profile = () => {
 							accept="image/*"
 						/>
 					</FormControl>
-
-					<Button colorScheme="blue" onClick={handleSubmit}>
-						Update Profile
-					</Button>
+					<Center>
+						<Button colorScheme="blue" m={5} onClick={handleSubmit}>
+							Update Profile
+						</Button>
+					</Center>
 				</Box>
 			</Center>
 		</VStack>
