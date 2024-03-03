@@ -5,7 +5,8 @@ import {
   useDisclosure,
   Button,
   Center,
-  Tooltip
+  Tooltip,
+  useToast
 } from '@chakra-ui/react';
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
@@ -17,7 +18,7 @@ export default function MyEvents() {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
-
+  const toast = useToast();
   const [attendees, setAttendees] = useState([]);
   const [postsData, setPostsData] = useState([]);
 
@@ -28,10 +29,20 @@ export default function MyEvents() {
   
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await PostService.getMyEvents();
-      setPostsData(data);
+      try {
+        const data = await PostService.getMyEvents();
+        setPostsData(data);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch events.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     };
-
+  
     fetchPosts();
   }, []);
 
@@ -40,9 +51,20 @@ export default function MyEvents() {
       if (selectedItemIndex == null) {
         return;
       }
-      const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
-      setAttendees(data);
+      try {
+        const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
+        setAttendees(data);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch attendees.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     };
+  
     fetchAttendees();
   }, [selectedItemIndex]);
 
@@ -58,31 +80,50 @@ export default function MyEvents() {
       const data = await PostService.getMyEvents();
       setPostsData(data);
     } catch (error){
-      console.error('Failed to delete event:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete event.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   }
+
   const handleConfirm = async(index) => {
-    try {
-      await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
-      setAttendees(prevAttendees => {
-        const newAttendees = [...prevAttendees];
-        newAttendees.splice(index, 1);
-        return newAttendees;
-      });
-    } catch (error) {
-      console.error('Failed to confirm attendee:', error);
-    }
+  try {
+    await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+    setAttendees(prevAttendees => {
+      const newAttendees = [...prevAttendees];
+      newAttendees.splice(index, 1);
+      return newAttendees;
+    });
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to confirm attendee.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
-  const handleDeleteAttendee = async(index) => {
-    try {
-      await VolunteerService.deleteAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
-      setAttendees(prevAttendees => {
-        return prevAttendees.filter((attendee, i) => i !== index);
-      });
-    } catch (error) {
-      console.error('Failed to delete attendee:', error);
-    }
+}
+const handleDeleteAttendee = async(index) => {
+  try {
+    await VolunteerService.deleteAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+    setAttendees(prevAttendees => {
+      return prevAttendees.filter((attendee, i) => i !== index);
+    });
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to delete attendee.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
+}
 
   return (
     <Center>
