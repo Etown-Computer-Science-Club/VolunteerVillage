@@ -40,7 +40,7 @@ export default function Navbar() {
 						<Text fontSize="15px" textAlign="center"> {user.email}</Text>
 						<Center pt="5px">
 							<ButtonGroup>
-								<Button as={RouterLink} to={"/profile"}>Profile</Button>
+								<Button as={RouterLink} to={"/myevents"}>My Events</Button>
 								<Logout />
 							</ButtonGroup>
 						</Center>
