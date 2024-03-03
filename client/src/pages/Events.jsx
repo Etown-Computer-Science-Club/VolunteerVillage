@@ -57,7 +57,7 @@ export default function Events() {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant='ghost'>Sign Up</Button>
+            <Button colorScheme='green'>Sign Up</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

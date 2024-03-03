@@ -24,7 +24,6 @@ export default function MyEvents() {
         <Table variant='simple' colorScheme='teal'>
           <Thead bg="blue.900">
             <Tr>
-              <Th textAlign="center">Company</Th>
               <Th textAlign="center">Event Date</Th>
               <Th textAlign="center">Event Title</Th>
               <Th textAlign="center">City</Th>
@@ -35,7 +34,6 @@ export default function MyEvents() {
           <Tbody>
           {postsData.map((user, index) => (
               <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                <Td textAlign="center">{user.company.name}</Td>
                 <Td textAlign="center">{user.eventDate}</Td>
                 <Td textAlign="center">{user.title}</Td>
                 <Td textAlign="center">{user.address.city}</Td>
