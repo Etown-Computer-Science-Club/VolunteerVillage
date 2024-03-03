@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const urlsToUseAuth0 = [
-	"https://community-production-c11b.up.railway.app",
+	"https://api.volunteervillage.co",
 	"http://localhost:8000",
 ];
 
