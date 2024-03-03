@@ -4,13 +4,17 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
   useDisclosure,
   Button,
-  Center
+  Center,
+  Box,
+  Text,
+  Divider
 } from '@chakra-ui/react';
 import { useAuth0 } from "@auth0/auth0-react";
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
-import { CalendarIcon, TimeIcon, ChevronDownIcon, AtSignIcon } from '@chakra-ui/icons'
-
+import { CalendarIcon, TimeIcon, ChevronDownIcon, AtSignIcon } from '@chakra-ui/icons';
+import { Icon } from '@chakra-ui/react';
+import { MdLocationOn, MdExpandMore } from 'react-icons/md';
 
 
 export default function Events() {
@@ -67,55 +71,53 @@ export default function Events() {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size='xl' >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Event Details</ModalHeader>
+          <ModalHeader style={{textAlign: 'center', fontSize: '24px'}}>
+            <Text fontSize="2xl">{!(selectedItemIndex ==null) && postsData[selectedItemIndex].title}</Text>
+            <Text fontSize="md">By: Company</Text>
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            {selectedItemIndex !== null && 
-                <div style={{textAlign: 'center' }}>
-                  <p style={{ fontSize: '20px'}}>Title</p>
-                  <p style={{ fontSize: '24px', border: '5px outset green', borderRadius: '5px'}}>
-                  {
-                    postsData[selectedItemIndex].title.trim().split(' ').map((word, index, array) =>
-                    (index !== array.length - 1 || !word.endsWith('.')) ? 
-                    word.charAt(0).toUpperCase() + word.slice(1) : 
-                    ''
-                    ).join(' ')}
-                  </p>
-                  <p style={{ fontSize: '20px', border: '5px outset blue', borderRadius: '5px'}}>{postsData[selectedItemIndex].description}</p>
-                  <p style={{ fontSize: '20px', border: '5px inset blue', borderRadius: '5px'}}>{postsData[selectedItemIndex].company.name}</p>
-                  <p style={{ fontSize: '20px', border: '5px inset blue', borderRadius: '5px'}}>
-                    <AtSignIcon /> {postsData[selectedItemIndex].address.zip}, {postsData[selectedItemIndex].address.street}, {postsData[selectedItemIndex].address.city}, {postsData[selectedItemIndex].address.state}
-                  </p>
-                  <p style={{ fontSize: '20px', border: '5px outset blue', borderRadius: '5px'}}>
-                  <div>
-                    <CalendarIcon />
-                    <span style={{ marginRight: '5px' }}>
-                      {postsData[selectedItemIndex].eventDateStart.split('T')[0]}
-                    </span>
-                    <br />
-                    <TimeIcon />
-                    <span>
-                      {postsData[selectedItemIndex].eventDateStart.split('T')[1]}
-                    </span>
-                  </div>
-                  <ChevronDownIcon /><ChevronDownIcon /><ChevronDownIcon />{/* Add a line break between start and end dates */}
-                  <div> {/* Wrap the end date and time with a div */}
-                    <CalendarIcon />
-                    <span style={{ marginRight: '5px' }}>
-                      {postsData[selectedItemIndex].eventDateEnd.split('T')[0]}
-                    </span>
-                    <br />
-                    <TimeIcon />
-                    <span>
-                      {postsData[selectedItemIndex].eventDateEnd.split('T')[1]}
-                    </span>
-                  </div>
-                </p>
-                </div>
-            }
+          <ModalBody style={{textAlign: 'center'}}>
+            {selectedItemIndex !== null &&
+                <Box style={{textAlign: 'center' }}>
+                  <Text style={{ fontSize: '20px'}}>{postsData[selectedItemIndex].description}</Text>
+                  <Divider orientation='horizontal' mt={2.5} />
+      <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box style={{ width: '50%', fontSize: '20px' }}>
+          <Text style={{ fontSize: '20px' }}>
+            <Icon as={MdLocationOn} /> {postsData[selectedItemIndex].address.zip}, {postsData[selectedItemIndex].address.street}, {postsData[selectedItemIndex].address.city}, {postsData[selectedItemIndex].address.state}
+          </Text>
+        </Box>
+        <Divider orientation='vertical' h="100px" mr="2" ml="2" />
+        <Box style={{ width: '50%', fontSize: '20px' }}>
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <CalendarIcon style={{ marginRight: '10px' }} />
+              <Text>
+                {postsData[selectedItemIndex].eventDateStart.split('T')[0]}
+              </Text>
+              
+              <TimeIcon style={{ marginLeft: '10px', marginRight: '10px' }} />
+              <Text>
+                {postsData[selectedItemIndex].eventDateStart.split('T')[1].split(':').slice(0, 2).join(':')}
+              </Text>
+          </Box>
+              <Text>to</Text>
+              <Box style={{ display: 'flex', alignItems: 'center' }}>
+                <CalendarIcon style={{ marginRight: '10px' }} />
+                <Text>
+                  {postsData[selectedItemIndex].eventDateEnd.split('T')[0]}
+                </Text>
+                <TimeIcon style={{ marginLeft: '10px', marginRight: '10px' }} />
+                <Text>
+                  {postsData[selectedItemIndex].eventDateEnd.split('T')[1].split(':').slice(0, 2).join(':')}
+                </Text>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      }
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
