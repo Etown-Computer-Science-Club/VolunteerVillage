@@ -36,7 +36,7 @@ export default function Events() {
 
   return (
     <Center>
-        <TableContainer w="75vw">
+        <TableContainer >
         <Table variant='simple' colorScheme='teal'>
           <Thead bg="blue.900">
             <Tr>
