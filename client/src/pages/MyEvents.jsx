@@ -4,7 +4,8 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
   useDisclosure,
   Button,
-  Center
+  Center,
+  Tooltip
 } from '@chakra-ui/react';
 import PostService from '../services/postService';
 import VolunteerService from '../services/volunteerService';
@@ -142,7 +143,12 @@ export default function MyEvents() {
             <Button colorScheme='blue' mr={3} onClick={handleClose}>
               Close
             </Button>
-            <Button colorScheme='red' onClick={handleDelete}>Delete Event</Button>
+
+            <Tooltip textAlign="center" label="You cannot delete an event with confirmed attendees" isDisabled={!attendees.some(attendee => attendee.isConfirmed)}>
+              <Button colorScheme='red' onClick={handleDelete} isDisabled={attendees.some(attendee => attendee.isConfirmed)}>
+                Delete Event
+              </Button>
+            </Tooltip>
           </ModalFooter>
         </ModalContent>
       </Modal>
