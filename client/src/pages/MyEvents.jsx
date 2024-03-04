@@ -20,7 +20,7 @@ const DTFORMAT="MMMM do h:mm a"
 export default function MyEvents() {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const toast = useToast();
   const [attendees, setAttendees] = useState([]);
   const [postsData, setPostsData] = useState([]);
@@ -55,11 +55,11 @@ export default function MyEvents() {
 
   useEffect(() => {
     const fetchAttendees = async () => {
-      if (selectedItemIndex == null) {
+      if (selectedItem == null) {
         return;
       }
       try {
-        const data = await VolunteerService.getAttendees(postsData[selectedItemIndex].id);
+        const data = await VolunteerService.getAttendees(selectedItem.id);
         setAttendees(data);
       } catch (error) {
         toast({
@@ -73,16 +73,16 @@ export default function MyEvents() {
     };
   
     fetchAttendees();
-  }, [selectedItemIndex]);
+  }, [selectedItem]);
 
-  const handleItemClick = (index) => {
-    setSelectedItemIndex(index);
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
     onOpen();
   }
 
   const handleDelete = async() => {
     try{
-      await PostService.deleteEvent(postsData[selectedItemIndex].id);
+      await PostService.deleteEvent(selectedItem.id);
       handleClose();
       const data = await PostService.getMyEvents();
       setPostsData(data);
@@ -99,7 +99,7 @@ export default function MyEvents() {
 
   const handleConfirm = async(index) => {
   try {
-    await VolunteerService.confirmAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+    await VolunteerService.confirmAttendee(selectedItem.id, attendees[index].userId);
     setAttendees(prevAttendees => {
       const newAttendees = [...prevAttendees];
       newAttendees.splice(index, 1);
@@ -117,7 +117,7 @@ export default function MyEvents() {
 }
 const handleDeleteAttendee = async(index) => {
   try {
-    await VolunteerService.deleteAttendee(postsData[selectedItemIndex].id, attendees[index].userId);
+    await VolunteerService.deleteAttendee(selectedItem.id, attendees[index].userId);
     setAttendees(prevAttendees => {
       return prevAttendees.filter((attendee, i) => i !== index);
     });
@@ -157,16 +157,16 @@ if (isFetching) {
           </Thead>
 
           <Tbody>
-          {postsData.map((user, index) => (
-              <Tr key={index} onClick={() => handleItemClick(index)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
+          {postsData.map((post, index) => (
+              <Tr key={index} onClick={() => handleItemClick(post)} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
                 <Td textAlign="center">
                   {
-                    format(new Date(user.eventDateEnd), DTFORMAT)
+                    format(new Date(post.eventDateEnd), DTFORMAT)
                   }
                 </Td>
-                <Td textAlign="center">{user.title}</Td>
-                <Td textAlign="center">{user.address.city}</Td>
-                <Td textAlign="center">{user.address.state}</Td>
+                <Td textAlign="center">{post.title}</Td>
+                <Td textAlign="center">{post.address.city}</Td>
+                <Td textAlign="center">{post.address.state}</Td>
               </Tr>
             ))}
           </Tbody>
@@ -189,13 +189,13 @@ if (isFetching) {
               </Thead>
 
               <Tbody>
-                {attendees.map((user, index) => {
-                  if(user.isConfirmed) {
+                {attendees.map((attendee, index) => {
+                  if(attendee.isConfirmed) {
                     return null;
                   }
                   return (
                     <Tr key={index} _hover={{ backgroundColor: 'blue.600' }} bg="gray.900">
-                      <Td textAlign="center">{user.name}</Td>
+                      <Td textAlign="center">{attendee.name}</Td>
                       <Td textAlign="center"><Button colorScheme="blue" onClick={() => handleConfirm(index)}>Confirm</Button></Td>
                       <Td textAlign="center"><Button colorScheme='red' onClick={() => handleDeleteAttendee(index)}>Delete</Button></Td>
                     </Tr>
