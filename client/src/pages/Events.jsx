@@ -45,7 +45,7 @@ export default function Events() {
 	const { isAuthenticated } = useAuth0();
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+	const [selectedItem, setSelectedItem] = useState(null);
 	const [postsData, setPostsData] = useState([]);
 	const [buttonLoading, setButtonLoading] = useState(false);
 	const [isConfettiActive, setIsConfettiActive] = useState(false);
@@ -88,15 +88,15 @@ export default function Events() {
 		fetchPosts();
 	}, []);
 
-	const handleItemClick = (index) => {
-		setSelectedItemIndex(index);
+	const handleItemClick = (item) => {
+		setSelectedItem(item);
 		onOpen();
 	};
 
 	const handleSignUp = async () => {
 		setButtonLoading(true);
 		try {
-			await VolunteerService.addVolunteer(postsData[selectedItemIndex].id);
+			await VolunteerService.addVolunteer(selectedItem.id);
 			setIsConfettiActive(true);
 			toast({
 				title: "Success",
@@ -188,50 +188,50 @@ export default function Events() {
 							</Thead>
 
 							<Tbody>
-								{filterEvents().map((user, index) => {
+								{filterEvents().map((event, index) => {
 									if (
-										new Date(user.eventDateEnd).getTime() < new Date().getTime()
+										new Date(event.eventDateEnd).getTime() < new Date().getTime()
 									) {
 										return null;
 									}
 									return (
 										<Tr
 											key={index}
-											onClick={() => handleItemClick(index)}
+											onClick={() => handleItemClick(event)}
 											_hover={{ backgroundColor: "blue.600" }}
 											bg="gray.900"
 										>
-											<Td textAlign="center">{user.company.name}</Td>
+											<Td textAlign="center">{event.company.name}</Td>
 											<Td textAlign="center">
-												{format(new Date(user.eventDateStart), DTFORMAT)}
+												{format(new Date(event.eventDateStart), DTFORMAT)}
 											</Td>
 											<Td textAlign="center">
-												{format(new Date(user.eventDateEnd), DTFORMAT)}
+												{format(new Date(event.eventDateEnd), DTFORMAT)}
 											</Td>
-											<Td textAlign="center">{user.title}</Td>
-											<Td textAlign="center">{user.address.city}</Td>
-											<Td textAlign="center">{user.address.state}</Td>
+											<Td textAlign="center">{event.title}</Td>
+											<Td textAlign="center">{event.address.city}</Td>
+											<Td textAlign="center">{event.address.state}</Td>
 										</Tr>
 									);
 								})}
 							</Tbody>
 						</Table>
 					</TableContainer>
-					{selectedItemIndex != null && (
+					{selectedItem != null && (
 						<Modal isOpen={isOpen} onClose={onClose} size="3xl">
 							<ModalOverlay />
 							<ModalContent>
 								<ModalHeader style={{ textAlign: "center", fontSize: "24px" }}>
-									<Text fontSize="2xl">{postsData[selectedItemIndex].title}</Text>
+									<Text fontSize="2xl">{selectedItem.title}</Text>
 									<Text fontSize="md">
-										By: {postsData[selectedItemIndex].company?.name}
+										By: {selectedItem.company?.name}
 									</Text>
 								</ModalHeader>
 								<ModalCloseButton />
 								<ModalBody style={{ textAlign: "center" }}>
 									<Box style={{ textAlign: "center" }}>
 										<Text style={{ fontSize: "20px" }}>
-											{postsData[selectedItemIndex].description}
+											{selectedItem.description}
 										</Text>
 										<Divider orientation="horizontal" mt={2.5} />
 										<Box
@@ -243,10 +243,10 @@ export default function Events() {
 											<Box style={{ width: "50%", fontSize: "20px" }}>
 												<Text style={{ fontSize: "21px" }}>
 													<Icon as={MdLocationOn} />{" "}
-													{postsData[selectedItemIndex].address.street},{" "}
-													{postsData[selectedItemIndex].address.city},{" "}
-													{postsData[selectedItemIndex].address.state},{" "}
-													{postsData[selectedItemIndex].address.zip}
+													{selectedItem.address.street},{" "}
+													{selectedItem.address.city},{" "}
+													{selectedItem.address.state},{" "}
+													{selectedItem.address.zip}
 												</Text>
 											</Box>
 											<Divider
@@ -267,9 +267,7 @@ export default function Events() {
 													<Text>
 														{format(
 															new Date(
-																postsData[
-																	selectedItemIndex
-																].eventDateStart
+																selectedItem.eventDateStart
 															),
 															DATEFORMAT
 														)}
@@ -284,9 +282,7 @@ export default function Events() {
 													<Text>
 														{format(
 															new Date(
-																postsData[
-																	selectedItemIndex
-																].eventDateStart
+																selectedItem.eventDateStart
 															),
 															TIMEFORMAT
 														)}
@@ -304,9 +300,7 @@ export default function Events() {
 													<Text>
 														{format(
 															new Date(
-																postsData[
-																	selectedItemIndex
-																].eventDateEnd
+																selectedItem.eventDateEnd
 															),
 															DATEFORMAT
 														)}
@@ -320,9 +314,7 @@ export default function Events() {
 													<Text>
 														{format(
 															new Date(
-																postsData[
-																	selectedItemIndex
-																].eventDateEnd
+																selectedItem.eventDateEnd
 															),
 															TIMEFORMAT
 														)}
@@ -341,8 +333,8 @@ export default function Events() {
 										label="You cannot sign up for an event without signing in first"
 										isDisabled={isAuthenticated}
 									>
-										{selectedItemIndex !== null &&
-										!postsData[selectedItemIndex].userIsVolunteer ? (
+										{selectedItem !== null &&
+										!selectedItem.userIsVolunteer ? (
 											<Button
 												colorScheme="blue"
 												isLoading={buttonLoading}
